@@ -1,0 +1,52 @@
+Group {
+name LN_LogKeyer
+tile_color 0x400d7aff
+note_font "Bitstream Vera Sans Bold"
+selected true
+xpos -7042
+ypos -38968
+addUserKnob {20 User}
+addUserKnob {41 input T Keyer6.input}
+addUserKnob {41 output T Keyer6.output}
+addUserKnob {41 combine l "" -STARTLINE T Keyer6.combine}
+addUserKnob {41 invert T Keyer6.invert}
+addUserKnob {41 operation T Keyer6.operation}
+addUserKnob {41 range T Keyer6.range}
+addUserKnob {26 ""}
+addUserKnob {41 gamma T Grade11.gamma}
+}
+Input {
+inputs 0
+name Input1
+xpos 0
+}
+OCIOLogConvert {
+operation "lin to log"
+name OCIOLogConvert5
+xpos 0
+ypos 69
+}
+Keyer {
+operation "luminance key"
+name Keyer6
+xpos 0
+ypos 127
+}
+Grade {
+channels alpha
+name Grade11
+xpos 0
+ypos 165
+}
+OCIOLogConvert {
+operation "log to lin"
+name OCIOLogConvert6
+xpos 0
+ypos 211
+}
+Output {
+name Output1
+xpos 0
+ypos 300
+}
+end_group

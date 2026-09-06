@@ -1,0 +1,155 @@
+Group {
+ name LN_EasyDistort
+ tile_color 0x5280ff
+ note_font Verdana
+ selected true
+ addUserKnob {20 User l Warp}
+ addUserKnob {26 div_distortionSet l "<b><font color=#75adbd>Distortion Settings</font><b>"}
+ addUserKnob {41 translate T Transform_stmap.translate}
+ addUserKnob {41 skewX l "skew X" T Transform_stmap.skewX}
+ addUserKnob {41 skewY l "skew Y" T Transform_stmap.skewY}
+ addUserKnob {41 scale T Transform_stmap.scale}
+ addUserKnob {41 rotate T Transform_stmap.rotate}
+ addUserKnob {26 ""}
+ addUserKnob {7 blurShape l "Distortion Falloff" R 0 500}
+ blurShape 400
+ addUserKnob {26 div_bbox l "" +STARTLINE}
+ addUserKnob {41 center l "Distort Center" T Transform_stmap.center}
+ addUserKnob {22 updateCenter l "Update Center to Input" -STARTLINE T "n = nuke.thisGroup()\n\ninput = n.input(0)\nif not input:\n    input = nuke.root()\n    \nwidth = input.width()\nheight = input.height()\n    \nn\['center'].setValue(\[width/2, height/2])"}
+ addUserKnob {26 ""}
+ addUserKnob {6 bbox l "Keep original BBox" +STARTLINE}
+ bbox true
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2020 - v1.1</font></b>"}
+ addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+}
+ Input {
+  inputs 0
+  name Src
+  xpos -49
+  ypos -252
+ }
+set N62d83c00 [stack 0]
+ Dot {
+  name Dot3
+  xpos -14
+  ypos 256
+ }
+set N62d83800 [stack 0]
+ Dot {
+  name Dot5
+  xpos 141
+  ypos 256
+ }
+ Dot {
+  name Dot6
+  xpos 141
+  ypos 455
+ }
+set N62d83000 [stack 0]
+ Dot {
+  name Dot7
+  xpos 141
+  ypos 574
+ }
+ Input {
+  inputs 0
+  name shape
+  xpos -277
+  ypos 44
+  number 1
+ }
+ Blur {
+  size {{parent.blurShape}}
+  name Blur_lens
+  xpos -277
+  ypos 146
+ }
+set N62d82400 [stack 0]
+ Invert {
+  name Invert1
+  xpos -277
+  ypos 395
+ }
+ Expression {
+  channel3 {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+  expr3 a<0?1:0
+  name Expression1
+  xpos -277
+  ypos 451
+ }
+push $N62d83000
+push $N62d82400
+push $N62d83c00
+ Dot {
+  name Dot2
+  xpos -445
+  ypos -248
+ }
+ Remove {
+  name Remove1
+  label "\[value channels] & \[value channels2]\n\[value channels3] & \[value channels4]"
+  selected true
+  xpos -479
+  ypos -124
+ }
+ Expression {
+  expr0 (x+0.5)/width
+  expr1 (y+0.5)/height
+  expr2 0
+  name STMap_Gen
+  xpos -479
+  ypos 58
+ }
+set N3454f000 [stack 0]
+ Dot {
+  name Dot1
+  xpos -627
+  ypos 62
+ }
+ Transform {
+  center {2048 1080}
+  shutteroffset centred
+  name Transform_stmap
+  xpos -661
+  ypos 152
+ }
+push $N3454f000
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos -479
+  ypos 146
+ }
+ Dot {
+  name Dot4
+  xpos -445
+  ypos 357
+ }
+push $N62d83800
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap1
+  xpos -48
+  ypos 345
+ }
+ Keymix {
+  inputs 3
+  name Keymix2
+  xpos -48
+  ypos 443
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -48
+  ypos 570
+  disable {{parent.bbox==0?1:0}}
+ }
+ Output {
+  name Output1
+  xpos -48
+  ypos 645
+ }
+end_group

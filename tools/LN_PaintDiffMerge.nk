@@ -1,0 +1,77 @@
+Group {
+ name LN_PaintDiffMerge
+ tile_color 0x174177ff
+ selected true
+ xpos -679
+ ypos -562
+ addUserKnob {20 User}
+ addUserKnob {26 explain l "" +STARTLINE T "Why use this?\n\nThis helps avoid issues when adding back grain that happen when using the paint plate as a working plate,\nas well as facilitating the creation of a matte of the paint region for targeted grain replacement. \nUse this as your main working plate.\n\nWhat it does:\n\nAdds paint on top of plate only in regions that were painted out using a difference mask \nand creates a paintMatte channel with the paint region matte alpha.\n\n"}
+}
+ Input {
+  inputs 0
+  name Paint
+  xpos 257
+  ypos -45
+  number 2
+ }
+ Input {
+  inputs 0
+  name NWB_Plate
+  xpos 414
+  ypos 28
+  number 3
+ }
+ Difference {
+  inputs 2
+  gain 30000
+  name Difference1
+  xpos 257
+  ypos 22
+ }
+ Expression {
+  expr3 a>0?1:0
+  name Expression1
+  xpos 257
+  ypos 98
+ }
+set N16bdaef0 [stack 0]
+ Dot {
+  name Dot1
+  xpos 291
+  ypos 195
+ }
+push $N16bdaef0
+ Input {
+  inputs 0
+  name Denoised_paint
+  xpos -156
+  ypos 99
+  number 1
+ }
+ Input {
+  inputs 0
+  name Denoised_plate
+  xpos 8
+  ypos -88
+ }
+ Keymix {
+  inputs 3
+  name Keymix2
+  xpos 8
+  ypos 93
+ }
+add_layer {paintMatte paintMatte.alpha}
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 paintMatte.alpha
+  name Copy1
+  xpos 8
+  ypos 185
+ }
+ Output {
+  name Output1
+  xpos 8
+  ypos 300
+ }
+end_group

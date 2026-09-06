@@ -1,0 +1,559 @@
+BackdropNode {
+ inputs 0
+ name BackdropNode5
+ tile_color 0x453647ff
+ label "Edge Extend"
+ note_font_size 60
+ selected true
+ xpos 14957
+ ypos 15608
+ bdwidth 1162
+ bdheight 534
+}
+push $cut_paste_input
+Dot {
+ name Dot11
+ selected true
+ xpos 15394
+ ypos 15758
+}
+set Ncf144bf0 [stack 0]
+Dot {
+ name Dot3
+ selected true
+ xpos 15795
+ ypos 15758
+}
+Group {
+ name LN_EdgeMatte
+ tile_color 0x5034aaff
+ note_font Verdana
+ selected true
+ xpos 15761
+ ypos 16013
+ addUserKnob {20 edgematte l EdgeMatte}
+ addUserKnob {26 div_pre l "<b><font color=#b3abeb>Pre Alpha Tweaks</font><b>"}
+ addUserKnob {41 blackpoint T Grade1.blackpoint}
+ addUserKnob {41 whitepoint T Grade1.whitepoint}
+ addUserKnob {41 gamma T Grade1.gamma}
+ addUserKnob {26 div_int l "<b><font color=#b3abeb>Internal Edge</font><b>"}
+ addUserKnob {7 internalEdge l "Internal Edge" R 0 50}
+ internalEdge 3
+ addUserKnob {41 filter T FilterErode2.filter}
+ addUserKnob {7 internalBlur l Blur R 0 100}
+ addUserKnob {26 div_ext l "<b><font color=#b3abeb>External Edge</font><b>"}
+ addUserKnob {7 externalEdge l "External Edge" R 0 50}
+ externalEdge 3
+ addUserKnob {41 filter_1 l filter T FilterErode1.filter}
+ addUserKnob {7 externalBlur l Blur R 0 100}
+ addUserKnob {26 div_extra l "<b><font color=#b3abeb>Extra Controls</font><b>"}
+ addUserKnob {7 centerOffset l "Center Offset" R -50 50}
+ addUserKnob {7 overallBlur l "General Blur" R 0 100}
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2020 - v1.0</font></b>"}
+ addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x2d3947ff
+  label "Internal Edge"
+  note_font_size 60
+  xpos -150
+  ypos 7
+  bdwidth 473
+  bdheight 404
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x414744ff
+  label "External Edge"
+  note_font_size 60
+  xpos 429
+  ypos 11
+  bdwidth 517
+  bdheight 400
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x414744ff
+  label pre
+  note_font_size 60
+  xpos -150
+  ypos -641
+  bdwidth 380
+  bdheight 266
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode4
+  tile_color 0x444744ff
+  label "center offset"
+  note_font_size 60
+  xpos -150
+  ypos -328
+  bdwidth 380
+  bdheight 266
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode5
+  tile_color 0x453647ff
+  label "general blur"
+  note_font_size 60
+  xpos -150
+  ypos 644
+  bdwidth 380
+  bdheight 266
+ }
+ Input {
+  inputs 0
+  name alpha
+  xpos 0
+  ypos -701
+ }
+ Grade {
+  channels alpha
+  name Grade1
+  xpos 0
+  ypos -530
+ }
+ FilterErode {
+  channels alpha
+  size {{parent.centerOffset}}
+  name FilterErode3
+  xpos 0
+  ypos -178
+ }
+ Dot {
+  name Dot1
+  xpos 34
+  ypos -27
+ }
+set Ne320b040 [stack 0]
+ FilterErode {
+  size {{parent.internalEdge}}
+  name FilterErode2
+  xpos 0
+  ypos 157
+ }
+ Blur {
+  size {{parent.internalBlur}}
+  name Blur_int
+  xpos 0
+  ypos 233
+ }
+push $Ne320b040
+ Dot {
+  name Dot2
+  xpos 670
+  ypos -27
+ }
+ FilterErode {
+  size {{parent.externalEdge*-1}}
+  name FilterErode1
+  xpos 636
+  ypos 171
+ }
+ Blur {
+  size {{parent.externalBlur}}
+  name Blur_ext
+  xpos 636
+  ypos 227
+ }
+ Dot {
+  name Dot3
+  xpos 670
+  ypos 515
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  name Merge1
+  xpos 0
+  ypos 511
+ }
+ Blur {
+  size {{parent.overallBlur}}
+  name Blur1
+  xpos 0
+  ypos 794
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 1035
+ }
+end_group
+ChannelMerge {
+ operation in
+ name ChannelMerge1
+ selected true
+ xpos 15573
+ ypos 16001
+ disable true
+}
+push $Ncf144bf0
+Dot {
+ name Dot15
+ selected true
+ xpos 15141
+ ypos 15758
+}
+Group {
+ name LN_EdgeExtend
+ tile_color 0x3e279eff
+ note_font "Verdana Bold"
+ selected true
+ xpos 15107
+ ypos 16013
+ addUserKnob {20 User l EdgeExtend}
+ addUserKnob {41 premulted l "Premulted Input" T callback.premulted}
+ addUserKnob {26 div_pre l "<b><font color=#b3abeb>Pre</font><b>"}
+ addUserKnob {41 size l "Pre Erode" T FilterErode4.size}
+ addUserKnob {41 size_3 l "Pre Blur" T Blur1.size}
+ addUserKnob {26 div_extend l "<b><font color=#b3abeb>Extension</font><b>"}
+ addUserKnob {7 blurExtend l "Edge Extend" R 0 100}
+ blurExtend 1
+ addUserKnob {26 div_transition l "<b><font color=#b3abeb>Transition</font><b>"}
+ addUserKnob {41 size_4 l Erode T FilterErode1.size}
+ addUserKnob {41 filter l "erode filter" T FilterErode1.filter}
+ addUserKnob {41 size_5 l Blur T Blur2.size}
+ addUserKnob {26 div_extra l "<b><font color=#b3abeb>Final Adjustment</font><b>"}
+ addUserKnob {41 size_1 l Blur T Blur_Final.size}
+ addUserKnob {41 size_2 l Sharpen T Sharpen1.size}
+ addUserKnob {26 ""}
+ addUserKnob {4 viewer l Viewer M {"Final Result" Pre_Extension Extension "" "" "" "" ""}}
+ viewer Extension
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x453647ff
+  label Pre
+  note_font_size 60
+  xpos -403
+  ypos -112
+  bdwidth 380
+  bdheight 356
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x453647ff
+  label Extend
+  note_font_size 60
+  xpos -581
+  ypos 278
+  bdwidth 727
+  bdheight 497
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x414744ff
+  label "Sharpen or Blur"
+  note_font_size 60
+  xpos -400
+  ypos 813
+  bdwidth 380
+  bdheight 486
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode4
+  tile_color 0x383147ff
+  label "Original Plate"
+  note_font_size 60
+  xpos -400
+  ypos 2019
+  bdwidth 1005
+  bdheight 498
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode5
+  tile_color 0x473532ff
+  label "premulted input"
+  note_font_size 60
+  xpos -403
+  ypos -651
+  bdwidth 561
+  bdheight 400
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode6
+  tile_color 0x414744ff
+  label mask
+  note_font_size 60
+  xpos -400
+  ypos 1566
+  bdwidth 668
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode7
+  tile_color 0x3b4735ff
+  label "Restore Alpha"
+  note_font_size 60
+  xpos -397
+  ypos 2688
+  bdwidth 1039
+  bdheight 266
+ }
+ Input {
+  inputs 0
+  name Unpremulted_Image
+  xpos -253
+  ypos -720
+ }
+ Dot {
+  name Dot4
+  xpos -219
+  ypos -501
+ }
+set Nb1ae4040 [stack 0]
+ Dot {
+  name Dot5
+  xpos -38
+  ypos -501
+ }
+set Nccba2460 [stack 0]
+ Unpremult {
+  name Unpremult1
+  xpos -72
+  ypos -351
+ }
+set Nb331e820 [stack 0]
+push $Nb1ae4040
+ Switch {
+  inputs 2
+  which {{callback.premulted?1:0}}
+  name Switch_premult
+  xpos -253
+  ypos -351
+ }
+ Dot {
+  name Dot1
+  xpos -219
+  ypos -204
+ }
+ FilterErode {
+  size 9
+  name FilterErode4
+  xpos -253
+  ypos 38
+ }
+ Blur {
+  name Blur1
+  xpos -253
+  ypos 128
+ }
+ Clamp {
+  channels rgba
+  name Clamp1
+  selected true
+  xpos -253
+  ypos 166
+ }
+ Premult {
+  name Premult2
+  xpos -253
+  ypos 405
+ }
+set Nbb1312c0 [stack 0]
+ Blur {
+  size {{Blur3.size*6}}
+  name Blur11
+  xpos -84
+  ypos 518
+ }
+push $Nbb1312c0
+ Blur {
+  size {{Blur3.size*4}}
+  name Blur5
+  xpos -200
+  ypos 515
+ }
+push 0
+push $Nbb1312c0
+ Blur {
+  size {{Blur3.size*2}}
+  name Blur4
+  xpos -313
+  ypos 514
+ }
+push $Nbb1312c0
+ Blur {
+  size {{parent.blurExtend}}
+  name Blur3
+  xpos -431
+  ypos 515
+ }
+ Merge2 {
+  inputs 4+1
+  operation conjoint-over
+  name Merge6
+  xpos -250
+  ypos 675
+ }
+ Unpremult {
+  name Unpremult3
+  xpos -250
+  ypos 726
+ }
+ Blur {
+  name Blur_Final
+  xpos -250
+  ypos 963
+ }
+ Log2Lin {
+  operation lin2log
+  name Log2Lin1
+  xpos -250
+  ypos 1103
+ }
+ Sharpen {
+  size 0
+  name Sharpen1
+  xpos -250
+  ypos 1149
+ }
+ Log2Lin {
+  name Log2Lin2
+  xpos -250
+  ypos 1199
+ }
+ Dot {
+  name Dot12
+  xpos -216
+  ypos 1428
+ }
+set Nd6517f10 [stack 0]
+ Dot {
+  name Dot6
+  xpos -498
+  ypos 1428
+ }
+ Dot {
+  name Dot7
+  label EXTEND
+  note_font_size 20
+  xpos -498
+  ypos 3243
+ }
+push $Nbb1312c0
+ Dot {
+  name Dot9
+  xpos -806
+  ypos 409
+ }
+ Dot {
+  name Dot8
+  label "PRE EXTEND"
+  note_font_size 20
+  xpos -806
+  ypos 3354
+ }
+push $Nccba2460
+ Dot {
+  name Dot11
+  xpos 455
+  ypos -501
+ }
+ Dot {
+  name Dot10
+  xpos 455
+  ypos 2850
+ }
+push $Nb331e820
+ Dot {
+  name Dot3
+  xpos 323
+  ypos -347
+ }
+ FilterErode {
+  name FilterErode1
+  xpos 289
+  ypos 2169
+ }
+ Blur {
+  name Blur2
+  xpos 289
+  ypos 2211
+ }
+ Premult {
+  name Premult1
+  xpos 289
+  ypos 2325
+ }
+ Dot {
+  name Dot2
+  xpos 323
+  ypos 2421
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos 38
+  ypos 1716
+  number 1
+ }
+push $Nd6517f10
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge2
+  xpos -250
+  ypos 1716
+  disable {{"\[exists parent.input1]?0:1"}}
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos -250
+  ypos 2417
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos -247
+  ypos 2838
+ }
+ Switch {
+  inputs 3
+  which {{parent.viewer}}
+  name Switch_viewer
+  xpos -247
+  ypos 3350
+ }
+ Output {
+  name Output1
+  xpos -247
+  ypos 3473
+ }
+ NoOp {
+  inputs 0
+  name callback
+  knobChanged "\n\n#define variables\nntn = nuke.thisNode()\ng = nuke.thisGroup()\nk = nuke.thisKnob()\npremulted = ntn.knob('premulted').value()\n\n\nif k.name() == 'premulted':\n    if premulted == 1:\n        g.begin()\n        try:\n            nuke.toNode('Unpremulted_Image').knob('name').setValue('Premulted_Image')\n        except:\n            pass\n        g.end()\n    else:\n        g.begin()\n        try:\n            nuke.toNode('Premulted_Image').knob('name').setValue('Unpremulted_Image')\n        except:\n            pass\n        g.end()\n\n"
+  xpos -1406
+  ypos -283
+  hide_input true
+  addUserKnob {20 User}
+  addUserKnob {6 premulted l "Premulted Input" +STARTLINE}
+ }
+end_group
+push $Ncf144bf0
+Keymix {
+ inputs 3
+ name Keymix1
+ selected true
+ xpos 15360
+ ypos 16007
+}

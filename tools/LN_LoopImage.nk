@@ -1,0 +1,296 @@
+Group {
+ name LN_LoopImage
+ tile_color 0x5280ff
+ note_font "Verdana Bold"
+ selected true
+ addUserKnob {20 User l Loop}
+ addUserKnob {4 type l "Loop Direction" M {Horizontal Vertical}}
+ addUserKnob {7 loopSpeed l "Loop Speed" R -100 300}
+ loopSpeed 50
+ addUserKnob {6 switchMirror l "Mirror Image" +STARTLINE}
+ switchMirror true
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2020 - v1.0</font></b>"}
+ addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode10
+  tile_color 0x3b4735ff
+  label "repeat in X (horiz.)"
+  note_font_size 60
+  xpos -1041
+  ypos 586
+  bdwidth 641
+  bdheight 828
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode11
+  tile_color 0x3b4735ff
+  label "repeat in Y (vertical)"
+  note_font_size 60
+  xpos -190
+  ypos 590
+  bdwidth 641
+  bdheight 828
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode13
+  tile_color 0x383147ff
+  label Source
+  note_font_size 60
+  xpos -938
+  ypos 125
+  bdwidth 380
+  bdheight 250
+ }
+ Input {
+  inputs 0
+  name Image
+  selected true
+  xpos -788
+  ypos 275
+ }
+ Dot {
+  name Dot10
+  xpos -754
+  ypos 556
+ }
+set N37a31400 [stack 0]
+ Dot {
+  name Dot11
+  xpos 61
+  ypos 556
+ }
+ Dot {
+  name Dot12
+  xpos 61
+  ypos 733
+ }
+set N37a30c00 [stack 0]
+ Reformat {
+  type scale
+  scale {1 2}
+  resize none
+  center false
+  filter Mitchell
+  name Reformat2
+  xpos 180
+  ypos 729
+ }
+set N37a30800 [stack 0]
+ Dot {
+  name Dot7
+  xpos 374
+  ypos 733
+ }
+ Mirror2 {
+  flip true
+  name Mirror2_2
+  xpos 340
+  ypos 805
+ }
+push $N37a30800
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 180
+  ypos 805
+ }
+push $N37a30c00
+ Switch {
+  inputs 2
+  which {{parent.Switch_mirror.which}}
+  name Switch2
+  xpos 27
+  ypos 805
+ }
+ Dot {
+  name Dot6
+  xpos 61
+  ypos 873
+ }
+set N37a49400 [stack 0]
+ Dot {
+  name Dot2
+  xpos 221
+  ypos 873
+ }
+ Dot {
+  name Dot5
+  xpos 216
+  ypos 1265
+ }
+push $N37a49400
+ Dot {
+  name Dot13
+  xpos 61
+  ypos 967
+ }
+set N37a48800 [stack 0]
+ Dot {
+  name Dot14
+  xpos -77
+  ypos 967
+ }
+ Transform {
+  translate {0 {input.height*-1}}
+  center {2048 858}
+  shutteroffset centred
+  name Transform11
+  xpos -111
+  ypos 1085
+ }
+push $N37a48800
+ Merge2 {
+  inputs 2
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge10
+  xpos 27
+  ypos 1085
+ }
+ Transform {
+  translate {0 {y_val-input.height*int(y_val/input.height)}}
+  center {1865 189.5}
+  shutteroffset centred
+  name Transform_Repeat_Y
+  xpos 27
+  ypos 1169
+  addUserKnob {20 User}
+  addUserKnob {3 y_val l y}
+  y_val {{frame*loopSpeed x1126 0}}
+  addUserKnob {3 onOff}
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox2
+  xpos 27
+  ypos 1261
+ }
+ Dot {
+  name Dot15
+  xpos 61
+  ypos 1343
+ }
+push $N37a31400
+ Dot {
+  name Dot9
+  xpos -754
+  ypos 755
+ }
+set N37a6ac00 [stack 0]
+ Reformat {
+  type scale
+  scale {2 1}
+  resize none
+  center false
+  filter Mitchell
+  name Reformat1
+  xpos -654
+  ypos 751
+ }
+set N37a6a800 [stack 0]
+ Dot {
+  name Dot8
+  xpos -460
+  ypos 755
+ }
+ Mirror2 {
+  flop true
+  name Mirror2_1
+  xpos -494
+  ypos 831
+ }
+push $N37a6a800
+ Merge2 {
+  inputs 2
+  name Merge9
+  xpos -654
+  ypos 831
+ }
+push $N37a6ac00
+ Switch {
+  inputs 2
+  which {{parent.switchMirror}}
+  name Switch_mirror
+  xpos -788
+  ypos 831
+ }
+ Dot {
+  name Dot1
+  xpos -754
+  ypos 908
+ }
+set N37a91000 [stack 0]
+ Dot {
+  name Dot4
+  xpos -626
+  ypos 908
+ }
+ Dot {
+  name Dot3
+  xpos -626
+  ypos 1251
+ }
+push $N37a91000
+ Dot {
+  name Dot17
+  xpos -754
+  ypos 967
+ }
+set N37a90400 [stack 0]
+ Dot {
+  name Dot18
+  xpos -892
+  ypos 967
+ }
+ Transform {
+  translate {{input.width*-1} 0}
+  center {2048 858}
+  shutteroffset centred
+  name Transform12
+  xpos -926
+  ypos 1085
+ }
+push $N37a90400
+ Merge2 {
+  inputs 2
+  Achannels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  name Merge17
+  xpos -788
+  ypos 1085
+ }
+ Transform {
+  translate {{x_val-input.width*int(x_val/input.width)} 0}
+  center {1865 189.5}
+  shutteroffset centred
+  name Transform_Repeat_X
+  xpos -788
+  ypos 1175
+  addUserKnob {20 User}
+  addUserKnob {3 x_val l x}
+  x_val {{frame*loopSpeed x1126 0}}
+  addUserKnob {3 onOff}
+  onOff {{int(x_val/input.width)/2==int(int(x_val/input.width)/2)?1:0}}
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -788
+  ypos 1247
+ }
+ Switch {
+  inputs 2
+  which {{type}}
+  name Switch_VerHor
+  xpos -788
+  ypos 1339
+ }
+ Output {
+  name Output1
+  xpos -788
+  ypos 1712
+ }
+end_group

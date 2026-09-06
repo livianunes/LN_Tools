@@ -1,0 +1,216 @@
+Group {
+ name LN_ConvertPosition
+ label "(\[value transf])"
+ selected true
+ tile_color 0x5280ff
+ addUserKnob {20 SpaceTransform}
+ addUserKnob {41 in l "pos channel" T Shuffle1.in}
+ addUserKnob {41 out l output T ShuffleCopy1.out2}
+ addUserKnob {4 data_type l "data type" M {"normal vectors" "point positions"}}
+ data_type "point positions"
+ addUserKnob {41 transf l Transformation T _callbacks_.transf}
+ addUserKnob {26 explain l "" +STARTLINE T "You need an Axis node with the object animation to use this mode"}
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2021 - v1.0</font></b>\n"}
+ addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+ addUserKnob {26 thanks l "" +STARTLINE T "<font color=#757575 size=2>Thanks to Adrian Herr, this tool is very much based on his tool</font>"}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x453647ff
+  label callbacks
+  note_font_size 60
+  xpos -474
+  ypos -492
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x444744ff
+  label Axis/Cam
+  note_font_size 60
+  xpos 907
+  ypos -503
+  bdwidth 403
+  bdheight 438
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x453647ff
+  label Transformations
+  note_font_size 60
+  xpos 14
+  ypos -499
+  bdwidth 848
+  bdheight 667
+ }
+ Input {
+  inputs 0
+  name src
+  xpos 164
+  ypos -603
+ }
+ Dot {
+  name Dot7
+  xpos 198
+  ypos -342
+ }
+set N62d27000 [stack 0]
+ Shuffle {
+  in p
+  alpha black
+  out rgb
+  name Shuffle1
+  label "in: \[value in]"
+  xpos 400
+  ypos -349
+ }
+ Dot {
+  name Dot1
+  xpos 434
+  ypos -257
+ }
+set N62d26800 [stack 0]
+ Dot {
+  name Dot2
+  xpos 666
+  ypos -257
+ }
+ Add {
+  channels rgb
+  value {{-Axis3.world_matrix.3} {-Axis3.world_matrix.7} {-Axis3.world_matrix.11} 0}
+  name Add3
+  label "inverse translation"
+  xpos 632
+  ypos -138
+  disable {{!data_type}}
+ }
+ ColorMatrix {
+  matrix {
+      {{"Axis3.world_matrix.0 * camScale.total_scale.x"} {"Axis3.world_matrix.1 * camScale.total_scale.y"} {"Axis3.world_matrix.2 * camScale.total_scale.z"}}
+      {{"Axis3.world_matrix.4 * camScale.total_scale.x"} {"Axis3.world_matrix.5 * camScale.total_scale.y"} {"Axis3.world_matrix.6 * camScale.total_scale.z"}}
+      {{"Axis3.world_matrix.8 * camScale.total_scale.x"} {"Axis3.world_matrix.9 * camScale.total_scale.y"} {"Axis3.world_matrix.10 * camScale.total_scale.z"}}
+    }
+  invert true
+  name ColorMatrix4
+  label "world to cam"
+  xpos 632
+  ypos -78
+  disable {{hasError}}
+ }
+ Dot {
+  name Dot3
+  xpos 666
+  ypos 63
+ }
+set N630f3800 [stack 0]
+push $N630f3800
+push $N62d26800
+ ColorMatrix {
+  matrix {
+      {{"Axis3.world_matrix.0 * camScale.total_scale.x"} {"Axis3.world_matrix.1 * camScale.total_scale.y"} {"Axis3.world_matrix.2 * camScale.total_scale.z"}}
+      {{"Axis3.world_matrix.4 * camScale.total_scale.x"} {"Axis3.world_matrix.5 * camScale.total_scale.y"} {"Axis3.world_matrix.6 * camScale.total_scale.z"}}
+      {{"Axis3.world_matrix.8 * camScale.total_scale.x"} {"Axis3.world_matrix.9 * camScale.total_scale.y"} {"Axis3.world_matrix.10 * camScale.total_scale.z"}}
+    }
+  name ColorMatrix1
+  label "cam to world"
+  xpos 400
+  ypos -150
+  disable {{hasError}}
+ }
+ Add {
+  channels rgb
+  value {{Axis3.world_matrix.3} {Axis3.world_matrix.7} {Axis3.world_matrix.11} 0}
+  name Add2
+  label translation
+  xpos 400
+  ypos -81
+  disable {{!data_type}}
+ }
+set N630f3000 [stack 0]
+push $N630f3000
+ Switch {
+  inputs 4
+  which {{_callbacks_.transf}}
+  name Switch1
+  label transform
+  selected true
+  xpos 400
+  ypos 53
+ }
+push $N62d27000
+ ShuffleCopy {
+  inputs 2
+  alpha alpha2
+  black red
+  white green
+  red2 blue
+  green2 alpha
+  out2 rgb
+  name ShuffleCopy1
+  label "out: \[value out2]"
+  xpos 164
+  ypos 56
+  disable {{"!(NoOp1.total_scale.x && NoOp1.total_scale.y && NoOp1.total_scale.z && \[exists parent.input0])"}}
+ }
+ Output {
+  name Output1
+  xpos 164
+  ypos 386
+ }
+ NoOp {
+  inputs 0
+  name _callbacks_
+  knobChanged "ntn = nuke.thisNode()\ntype = ntn.knob('transf').value()\n\nif nuke.thisKnob().name() == 'transf':\n    \n        if type == 'cam to world' or type == 'world to cam':\n\n            nuke.thisParent().knob('explain').setVisible(False)\n            \n            with nuke.thisGroup():\n                \n                for i in nuke.allNodes('Input'):\n                    \n                    if i.name() ==  'src':\n                        pass     \n                        \n                    elif  i.name() == 'objLocatorAxis':\n                        i.knob('name').setValue('cam')\n                        \n                        \n        elif type == 'object to world' or type == 'world to object' :\n            \n                nuke.thisParent().knob('explain').setVisible(True)\n            \n                with nuke.thisGroup():\n                    \n                    for i in nuke.allNodes('Input'):\n                        \n                        if i.name() ==  'src':\n                            pass\n                            \n                        elif i.name() == 'cam':\n                            i.knob('name').setValue('objLocatorAxis')                "
+  xpos -345
+  ypos -338
+  hide_input true
+  addUserKnob {20 User}
+  addUserKnob {4 transf l Transformation M {"cam to world" "object to world" "world to cam" "world to object" ""}}
+  transf "object to world"
+ }
+ Input {
+  inputs 0
+  name objLocatorAxis
+  xpos 1026
+  ypos -353
+  number 1
+ }
+ Axis2 {
+  name Axis3
+  xpos 1036
+  ypos -269
+ }
+set N9186d800 [stack 0]
+ NoOp {
+  name camScale
+  label "error handling"
+  xpos 1026
+  ypos -146
+  addUserKnob {20 User}
+  addUserKnob {13 scale}
+  scale {{"NoOp1.uniform_scale == 0? 1: NoOp1.scale.x"} {"NoOp1.uniform_scale == 0? 1: NoOp1.scale.y"} {"NoOp1.uniform_scale == 0? 1: NoOp1.scale.z"}}
+  addUserKnob {7 uniform_scale l "Uniform Scale" R 0 10}
+  uniform_scale {{"NoOp1.uniform_scale == 0? 1:NoOp1.uniform_scale "}}
+  addUserKnob {13 total_scale l "Total Scale"}
+  total_scale {{"NoOp1.uniform_scale == 0? 1: NoOp1.total_scale.x"} {"NoOp1.uniform_scale == 0? 1 : NoOp1.total_scale.y"} {"NoOp1.uniform_scale == 0? 1: NoOp1.total_scale.z"}}
+ }
+push $N9186d800
+ NoOp {
+  name NoOp1
+  label "camera scale"
+  xpos 1153
+  ypos -255
+  addUserKnob {20 User}
+  addUserKnob {13 scale}
+  scale {{"\[value \[topnode parent.input1].scaling.x]"} {"\[value \[topnode parent.input1].scaling.y]"} {"\[value \[topnode parent.input1].scaling.z]"}}
+  addUserKnob {7 uniform_scale l "uniform scale"}
+  uniform_scale {{"\[value \[topnode parent.input1].uniform_scale]"}}
+  addUserKnob {13 total_scale l "total scale"}
+  total_scale {{"scale*uniform_scale ? 1/(scale*uniform_scale) : 0"} {"scale*uniform_scale ? 1/(scale*uniform_scale) : 0"} {"scale*uniform_scale ? 1/(scale*uniform_scale) : 0"}}
+ }
+end_group

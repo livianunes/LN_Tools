@@ -1,0 +1,66 @@
+Group {
+ name Original_sRGB
+ tile_color 0x5280ff
+ note_font "Verdana Bold"
+ selected true
+ addUserKnob {20 User l sRGB_ACES}
+ addUserKnob {26 explain l "" +STARTLINE T "\nThis tool automatically changes the sRGB colors\nto have the colors that you would expect\noutside ACES. This operation breaks linearization\nand must be done with care, only at the end of the\ncomp pipe and only in situations where you\nabsolutely need to keep the original image colors.\n"}
+ addUserKnob {26 ""}
+ addUserKnob {6 invert l "INVERT (Output sRGB to Utility Texture sRGB)" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2021 - v1.0</font></b>"}
+ addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+}
+ Input {
+  inputs 0
+  name Source
+  xpos 0
+ }
+set Nd342000 [stack 0]
+ OCIOColorSpace {
+  in_colorspace scene_linear
+  out_colorspace "Output - sRGB"
+  name OCIOColorSpace4
+  label "\[value in_colorspace]\n\[value out_colorspace]"
+  xpos -247
+  ypos 58
+ }
+ OCIOColorSpace {
+  in_colorspace matte_paint
+  out_colorspace scene_linear
+  name OCIOColorSpace8
+  label "\[value in_colorspace]\n\[value out_colorspace]"
+  xpos -247
+  ypos 114
+ }
+push $Nd342000
+ OCIOColorSpace {
+  in_colorspace scene_linear
+  out_colorspace matte_paint
+  name OCIOColorSpace9
+  label "\[value in_colorspace]\n\[value out_colorspace]"
+  xpos 191
+  ypos 59
+ }
+ OCIOColorSpace {
+  in_colorspace "Output - sRGB"
+  out_colorspace scene_linear
+  name OCIOColorSpace11
+  label "\[value in_colorspace]\n\[value out_colorspace]"
+  xpos 191
+  ypos 123
+ }
+ Switch {
+  inputs 2
+  which {{parent.invert==1?1:0}}
+  name Switch1
+  selected true
+  xpos 0
+  ypos 227
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 402
+ }
+end_group

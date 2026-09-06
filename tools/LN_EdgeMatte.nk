@@ -1,0 +1,164 @@
+Group {
+name LN_EdgeMatte
+tile_color 0x5034aaff
+note_font Verdana
+selected true
+xpos -1118
+ypos 4752
+addUserKnob {20 edgematte l EdgeMatte}
+addUserKnob {26 div_pre l "<b><font color=#b3abeb>Pre Alpha Tweaks</font><b>"}
+addUserKnob {41 blackpoint T Grade1.blackpoint}
+addUserKnob {41 whitepoint T Grade1.whitepoint}
+addUserKnob {41 gamma T Grade1.gamma}
+addUserKnob {26 div_int l "<b><font color=#b3abeb>Internal Edge</font><b>"}
+addUserKnob {7 internalEdge l "Internal Edge" R 0 50}
+internalEdge 3
+addUserKnob {41 filter T FilterErode2.filter}
+addUserKnob {7 internalBlur l Blur R 0 100}
+addUserKnob {26 div_ext l "<b><font color=#b3abeb>External Edge</font><b>"}
+addUserKnob {7 externalEdge l "External Edge" R 0 50}
+externalEdge 3
+addUserKnob {41 filter_1 l filter T FilterErode1.filter}
+addUserKnob {7 externalBlur l Blur R 0 100}
+addUserKnob {26 div_extra l "<b><font color=#b3abeb>Extra Controls</font><b>"}
+addUserKnob {7 centerOffset l "Center Offset" R -50 50}
+addUserKnob {7 overallBlur l "General Blur" R 0 100}
+addUserKnob {26 "" +STARTLINE}
+addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2020 - v1.0</font></b>"}
+addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+}
+BackdropNode {
+inputs 0
+name BackdropNode1
+tile_color 0x2d3947ff
+label "Internal Edge"
+note_font_size 60
+xpos -150
+ypos 7
+bdwidth 473
+bdheight 404
+}
+BackdropNode {
+inputs 0
+name BackdropNode2
+tile_color 0x414744ff
+label "External Edge"
+note_font_size 60
+xpos 429
+ypos 11
+bdwidth 517
+bdheight 400
+}
+BackdropNode {
+inputs 0
+name BackdropNode3
+tile_color 0x414744ff
+label pre
+note_font_size 60
+xpos -150
+ypos -641
+bdwidth 380
+bdheight 266
+}
+BackdropNode {
+inputs 0
+name BackdropNode4
+tile_color 0x444744ff
+label "center offset"
+note_font_size 60
+xpos -150
+ypos -328
+bdwidth 380
+bdheight 266
+}
+BackdropNode {
+inputs 0
+name BackdropNode5
+tile_color 0x453647ff
+label "general blur"
+note_font_size 60
+xpos -150
+ypos 644
+bdwidth 380
+bdheight 266
+}
+Input {
+inputs 0
+name alpha
+xpos 0
+ypos -701
+}
+Grade {
+channels alpha
+gamma 1
+name Grade1
+xpos 0
+ypos -530
+}
+FilterErode {
+channels alpha
+size {{parent.centerOffset}}
+name FilterErode3
+xpos 0
+ypos -178
+}
+Dot {
+name Dot1
+xpos 34
+ypos -27
+}
+set Nd1927800 [stack 0]
+FilterErode {
+size {{parent.internalEdge}}
+name FilterErode2
+xpos 0
+ypos 157
+}
+Blur {
+size {{parent.internalBlur}}
+name Blur_int
+xpos 0
+ypos 233
+}
+push $Nd1927800
+Dot {
+name Dot2
+xpos 670
+ypos -27
+}
+FilterErode {
+size {{parent.externalEdge*-1}}
+name FilterErode1
+xpos 636
+ypos 171
+}
+Blur {
+size {{parent.externalBlur}}
+name Blur_ext
+xpos 636
+ypos 227
+}
+Dot {
+name Dot3
+xpos 670
+ypos 515
+}
+Merge2 {
+inputs 2
+operation stencil
+name Merge1
+xpos 0
+ypos 511
+}
+Blur {
+size {{parent.overallBlur}}
+name Blur1
+xpos 0
+ypos 794
+}
+Output {
+name Output1
+xpos 0
+ypos 1035
+}
+end_group

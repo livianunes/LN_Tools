@@ -1,0 +1,82 @@
+Group {
+name LN_AlphaMaskDepth
+tile_color 0x5e4399ff
+selected true
+xpos 14074
+ypos -32511
+addUserKnob {20 User}
+addUserKnob {26 explain l "Alpha Mask Depth" T "This node creates a holdout using the alpha\nso that everything in the depth channel outside\nthe alpha is black"}
+addUserKnob {6 unpremult l Unpremulted +STARTLINE}
+unpremult true
+}
+Input {
+inputs 0
+name Input1
+xpos 0
+}
+Dot {
+name Dot73
+note_font_size 40
+xpos 34
+ypos 81
+}
+set N331d41d0 [stack 0]
+Unpremult {
+name Unpremult13
+xpos -134
+ypos 123
+}
+Expression {
+expr3 r>0?1:0
+name Expression3
+xpos -134
+ypos 160
+}
+push $N331d41d0
+Switch {
+inputs 2
+which {{parent.unpremult}}
+name Switch1
+selected true
+xpos -134
+ypos 223
+}
+push $N331d41d0
+Shuffle2 {
+fromInput1 {{0} B}
+in1 depth
+fromInput2 {{0} B}
+mappings "4 depth.Z 0 0 rgba.red 0 0 depth.Z 0 0 rgba.green 0 1 depth.Z 0 0 rgba.blue 0 2 depth.Z 0 0 rgba.alpha 0 3"
+name Shuffle3
+label "\[value in1]->\[value out1]"
+xpos -257
+ypos 71
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name Copy12
+xpos -257
+ypos 217
+}
+Premult {
+name Premult13
+xpos -257
+ypos 330
+}
+push $N331d41d0
+Copy {
+inputs 2
+from0 rgba.red
+to0 depth.Z
+name Copy13
+xpos 0
+ypos 324
+}
+Output {
+name Output1
+xpos 0
+ypos 422
+}
+end_group

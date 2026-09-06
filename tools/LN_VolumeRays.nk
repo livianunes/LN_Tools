@@ -1,0 +1,421 @@
+Group {
+ name LN_VolumeRays
+ tile_color 0x29277cff
+ note_font "Bitstream Vera Sans Bold"
+ selected true
+ xpos -62
+ ypos -36
+ addUserKnob {20 "" l User}
+ addUserKnob {4 style l "Volumetric Creation" t style M {"RGB Luminance" "Alpha Edges" "Alpha Solid" "Shadow Making"}}
+ addUserKnob {26 "" l "RGB Options"}
+ addUserKnob {7 luma_tol l "Luma Tolerance" t luma_tol}
+ addUserKnob {26 "" l "Alpha Options"}
+ addUserKnob {7 edge_size l "Edge Size" t "Erode Size" R -10 10}
+ addUserKnob {14 blur_size l "Edge Blur" t "Blur Size" R 0 100}
+ blur_size 3
+ addUserKnob {26 "" l "Volume Options"}
+ addUserKnob {12 vol_pos l "Volumetrics Center" t vol_pos}
+ vol_pos {2470 1792}
+ addUserKnob {14 raylength l "Ray Length" R 0 100}
+ raylength 100
+ addUserKnob {7 pre_blur l "Pre-Ray Blur" R 0 100}
+ pre_blur 11
+ addUserKnob {4 quality l Quality t quality M {Low Medium High "Very High"}}
+ quality High
+ addUserKnob {6 comp_me l "Add on Top" t comp_me -STARTLINE}
+ addUserKnob {26 "" l "Flicker Options"}
+ addUserKnob {6 chk_flicker l "Use Flickering" t chk_flicker -STARTLINE}
+ chk_flicker true
+ addUserKnob {7 flicker_speed l "Flicker Speed" t flicker_speed R 0 10}
+ flicker_speed 2
+ addUserKnob {7 flicker_size l "Flicker Size" t flicker_size R 0 100}
+ flicker_size 40
+ addUserKnob {6 xform_flicker l "Transform noise with Volume Center" t "Use this if your flickering is too much due to the movement of the center of the volume.\nThe noise will move with the point and then the only cause for flickering is the speed of the flicker." -STARTLINE}
+ addUserKnob {26 "" l "Color Options"}
+ addUserKnob {6 chk_desat l "Desaturate before Coloring" t chk_desat -STARTLINE}
+ addUserKnob {18 CCorrect1_gamma l "Volume Gamma" t CCorrect1_gamma R 0.2 5}
+ CCorrect1_gamma 1
+ addUserKnob {6 CCorrect1_gamma_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 CCorrect1_gain l "Volume Gain" t CCorrect1_gain R 0 4}
+ CCorrect1_gain 1
+ addUserKnob {6 CCorrect1_gain_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {19 initcolor l "Initial Volume Color" t initcolor R 0 5}
+ initcolor 1
+ addUserKnob {6 initcolor_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {19 volume_end_color l "End Volume Color"}
+ volume_end_color {0 0 0 0}
+ addUserKnob {6 volume_end_color_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 "" l "Radial Falloff"}
+ addUserKnob {6 chk_radial l "Enable Radial Falloff" -STARTLINE}
+ chk_radial true
+ addUserKnob {7 radial_size l "Radial Size" R 100 1000}
+ radial_size 500
+ addUserKnob {7 rad_softness l "Radial Falloff"}
+ rad_softness 1
+ addUserKnob {26 "" l "Mask Options"}
+ addUserKnob {6 chk_use_mask l "Enable Mask" -STARTLINE}
+ addUserKnob {7 mask_blur l "Mask Blur" R 0 100}
+ addUserKnob {6 chk_xform_mask l "Transform Mask with Volume Center" -STARTLINE}
+ addUserKnob {26 "" l NOTE: T "The alpha channel is what you need for the mask"}
+ addUserKnob {26 ""}
+ addUserKnob {26 NegativeVolume l "<b>Negative Volume</b>"}
+ addUserKnob {41 size l "Blur Negative Mask" T Blur4.size}
+ addUserKnob {41 mix l "Negative Volume Mix" T Merge5.mix}
+}
+ Input {
+  inputs 0
+  name negativeVolumeMask
+  xpos -197
+  ypos -554
+  number 2
+ }
+ Input {
+  inputs 0
+  name img
+  xpos -382
+  ypos -620
+ }
+add_layer {negativeMask negativeMask.red negativeMask.green negativeMask.blue negativeMask.alpha}
+ Shuffle2 {
+  inputs 2
+  fromInput1 {{0} B A}
+  fromInput2 {{1} B A}
+  in2 rgba
+  out2 negativeMask
+  mappings "8 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.alpha 0 3 rgba.alpha 0 3 rgba.red 1 0 negativeMask.red 1 0 rgba.green 1 1 negativeMask.green 1 1 rgba.blue 1 2 negativeMask.blue 1 2 rgba.alpha 1 3 negativeMask.alpha 1 3"
+  name Shuffle6
+  xpos -382
+  ypos -554
+ }
+ Dot {
+  name Dot6
+  note_font_size 40
+  xpos -348
+  ypos -486
+ }
+set N163af3b0 [stack 0]
+ Dot {
+  name Dot5
+  tile_color 0x9597bf00
+  xpos -486
+  ypos -486
+ }
+ Blur {
+  channels rgba
+  size {{parent.raylength*1000 x1 48}}
+  filter box
+  quality 1
+  name Blur3
+  tile_color 0xcc804e00
+  xpos -520
+  ypos 577
+ }
+push $N163af3b0
+ Dot {
+  name Dot1
+  xpos -348
+  ypos -399
+ }
+set N15e5e990 [stack 0]
+ Dot {
+  name Dot2
+  xpos -348
+  ypos -69
+ }
+set Nad61cf0 [stack 0]
+ Dot {
+  name Dot3
+  tile_color 0x9597bf00
+  xpos -348
+  ypos 483
+ }
+ Input {
+  inputs 0
+  name mask
+  xpos 218
+  ypos 53
+  number 1
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle3
+  tile_color 0x9e3c6300
+  xpos 218
+  ypos 79
+ }
+ Blur {
+  size {{mask_blur}}
+  name Blur2
+  tile_color 0xcc804e00
+  label (all)
+  xpos 218
+  ypos 118
+  disable {{!mask_blur}}
+ }
+ Transform {
+  translate {{vol_pos.x} {vol_pos.y}}
+  center {320 240}
+  name Transform1
+  xpos 218
+  ypos 168
+  disable {{!chk_xform_mask}}
+ }
+push $Nad61cf0
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle2
+  tile_color 0x9e3c6300
+  xpos -202
+  ypos -72
+ }
+ Radial {
+  area {{vol_pos.x-radial_size} {vol_pos.y-radial_size} {vol_pos.x+radial_size} {vol_pos.y+radial_size}}
+  softness {{rad_softness}}
+  name Radial1
+  tile_color 0xc0c0c000
+  xpos -202
+  ypos 48
+  disable {{!chk_radial}}
+ }
+push $N15e5e990
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle5
+  tile_color 0x9e3c6300
+  xpos -202
+  ypos -222
+ }
+ Invert {
+  name Invert1
+  tile_color 0x7aa9ff00
+  xpos -202
+  ypos -167
+ }
+push $N15e5e990
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle4
+  tile_color 0x9e3c6300
+  xpos -202
+  ypos -282
+ }
+push $N15e5e990
+ EdgeDetectWrapper {
+  channels alpha
+  erodesize {{parent.edge_size}}
+  blursize {{parent.blur_size}}
+  name EdgeDetectWrapper1
+  tile_color 0xcc804e00
+  label (alpha)
+  xpos -202
+  ypos -409
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle1
+  tile_color 0x9e3c6300
+  xpos -202
+  ypos -342
+ }
+push $N163af3b0
+ Keyer {
+  operation "luminance key"
+  range {{luma_tol} 1 1 1}
+  name Keyer1
+  tile_color 0xff0000
+  label (alpha)
+  xpos -82
+  ypos -469
+ }
+ Premult {
+  name Premult1
+  xpos -82
+  ypos -416
+ }
+ Switch {
+  inputs 4
+  which {{style}}
+  name Switch1
+  xpos -82
+  ypos -282
+ }
+set N15f8e820 [stack 0]
+ Rectangle {
+  area {0 0 {input.width} {input.height}}
+  color 0
+  name Rectangle1
+  tile_color 0xc0c0c000
+  xpos 98
+  ypos -282
+ }
+ Noise {
+  size {{flicker_size i}}
+  zoffset {{frame/(100/flicker_speed) i}}
+  gamma 1
+  translate {{xform_flicker?vol_pos.x:0 i} {xform_flicker?vol_pos.y:0}}
+  name Noise1
+  xpos 98
+  ypos -222
+ }
+ Clamp {
+  name Clamp1
+  tile_color 0x7aa9ff00
+  label (all)
+  xpos 98
+  ypos -199
+ }
+push $N15f8e820
+ Dot {
+  name Dot4
+  tile_color 0x9597bf00
+  xpos -48
+  ypos -9
+ }
+ Merge {
+  inputs 2
+  operation mult
+  also_merge all
+  bbox B
+  name Merge2
+  tile_color 0x4b5ec600
+  xpos 98
+  ypos -12
+  disable {{!chk_flicker}}
+ }
+ Saturation {
+  saturation 0
+  name Saturation1
+  tile_color 0x7aa9ff00
+  xpos 98
+  ypos 18
+  disable {{!chk_desat}}
+ }
+ Merge {
+  inputs 2
+  operation mult
+  also_merge all
+  name Merge3
+  tile_color 0x4b5ec600
+  xpos 98
+  ypos 48
+  disable {{!chk_radial}}
+ }
+ Blur {
+  size {{pre_blur}}
+  name Blur1
+  tile_color 0xcc804e00
+  label (all)
+  xpos 98
+  ypos 101
+  disable {{!pre_blur}}
+ }
+ Merge {
+  inputs 2
+  operation mult
+  also_merge all
+  bbox B
+  name Merge4
+  tile_color 0x4b5ec600
+  xpos 98
+  ypos 168
+  disable {{!chk_use_mask}}
+ }
+set N15ed7650 [stack 0]
+ Shuffle2 {
+  fromInput1 {{0} B}
+  in1 negativeMask
+  fromInput2 {{0} B}
+  mappings "4 negativeMask.red 0 0 rgba.red 0 0 negativeMask.green 0 1 rgba.green 0 1 negativeMask.blue 0 2 rgba.blue 0 2 negativeMask.alpha 0 3 rgba.alpha 0 3"
+  name Shuffle7
+  xpos 252
+  ypos 259
+ }
+ GodRays {
+  scale {{raylength.w i} {raylength.h i}}
+  center {{vol_pos.x i} {vol_pos.y i}}
+  from_color {{50*initcolor.r i} {50*initcolor.g i} {50*initcolor.b i} {50*initcolor.a i}}
+  to_color {{volume_end_color.r i} {volume_end_color.g i} {volume_end_color.b i} {volume_end_color.a i}}
+  steps {{(quality+1)*3+1 i}}
+  name GodRays1
+  label (all)
+  xpos 252
+  ypos 299
+ }
+ Expression {
+  expr3 clamp(r+g+b)
+  name Expression1
+  xpos 252
+  ypos 372
+ }
+ Blur {
+  size 45
+  name Blur4
+  xpos 252
+  ypos 398
+ }
+push $N15ed7650
+ GodRays {
+  scale {{raylength.w i} {raylength.h i}}
+  center {{vol_pos.x i} {vol_pos.y i}}
+  from_color {{50*initcolor.r i} {50*initcolor.g i} {50*initcolor.b i} {50*initcolor.a i}}
+  to_color {{volume_end_color.r i} {volume_end_color.g i} {volume_end_color.b i} {volume_end_color.a i}}
+  steps {{(quality+1)*3+1 i}}
+  name GodRays2
+  label (all)
+  xpos 98
+  ypos 300
+ }
+ Merge2 {
+  inputs 2
+  operation stencil
+  mix 0.775
+  name Merge5
+  xpos 98
+  ypos 404
+ }
+ ColorCorrect {
+  gamma {{parent.CCorrect1_gamma.r i} {parent.CCorrect1_gamma.g i} {parent.CCorrect1_gamma.b i} {curve i}}
+  gain {{parent.CCorrect1_gain.r i} {parent.CCorrect1_gain.g i} {parent.CCorrect1_gain.b i} {curve i}}
+  name ColorCorrect1
+  xpos 98
+  ypos 434
+ }
+ Merge {
+  inputs 2
+  operation plus
+  bbox B
+  name Merge1
+  tile_color 0x4b5ec600
+  xpos 98
+  ypos 479
+  disable {{!comp_me K x13 0}}
+ }
+ Crop {
+  box {{curve i} {curve i} {img.width i} {img.height}}
+  name Crop1
+  xpos 98
+  ypos 528
+ }
+ Output {
+  name Output1
+  xpos 98
+  ypos 577
+ }
+ CopyBBox {
+  inputs 2
+  name CopyBBox1
+  xpos -173
+  ypos 577
+ }
+end_group

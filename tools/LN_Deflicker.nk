@@ -1,0 +1,76 @@
+Group {
+name LN_Deflicker
+tile_color 0x40307fff
+selected true
+xpos 14165
+ypos -32521
+addUserKnob {20 User l Deflicker}
+addUserKnob {4 flickerDeflicker l Type M {Deflicker Flicker}}
+addUserKnob {26 ""}
+addUserKnob {41 ROI T CurveTool1.ROI}
+addUserKnob {41 go l Analyze T CurveTool1.go}
+addUserKnob {41 resetROI l Reset -STARTLINE T CurveTool1.resetROI}
+addUserKnob {26 ""}
+addUserKnob {3 refFrame l "Reference Frame"}
+refFrame 1001
+addUserKnob {26 ""}
+addUserKnob {41 which l mix T Dissolve1.which}
+}
+Input {
+inputs 0
+name Input1
+xpos 0
+}
+Dot {
+name Dot2
+xpos 34
+ypos 57
+}
+set N284d9640 [stack 0]
+Dot {
+name Dot1
+xpos 34
+ypos 114
+}
+Grade {
+white {{parent.CurveTool1.intensitydata(parent.refFrame)/parent.CurveTool1.intensitydata} {parent.CurveTool1.intensitydata(parent.refFrame)/parent.CurveTool1.intensitydata} {parent.CurveTool1.intensitydata(parent.refFrame)/parent.CurveTool1.intensitydata} 0}
+reverse {{parent.flickerDeflicker}}
+name Grade1
+xpos 0
+ypos 162
+}
+push $N284d9640
+Dot {
+name Dot3
+xpos -85
+ypos 57
+}
+Dot {
+name Dot4
+xpos -85
+ypos 249
+}
+Dissolve {
+inputs 2
+which 1
+name Dissolve1
+xpos 0
+ypos 239
+}
+Output {
+name Output1
+xpos 0
+ypos 343
+}
+push $N284d9640
+CurveTool {
+avgframes 1
+ROI {1733.5 432.5 4453 1752}
+autocropdata {1024 429 3072 1287}
+intensitydata {1 1 1 1}
+name CurveTool1
+selected true
+xpos 201
+ypos 64
+}
+end_group

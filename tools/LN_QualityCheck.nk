@@ -1,0 +1,1569 @@
+Group {
+ name LN_QualityCheck
+ knobChanged "\n\n#define variables\nntn = nuke.thisNode()\ncheck = nuke.thisNode().knob('checks').value()\nautochecks = nuke.thisNode().knob('autoChecks').value()\ngroup = nuke.thisGroup()\ngroup.begin()\nswitch = nuke.toNode('_Switch').knob('which')\ngroup.end()\n\nk = nuke.thisKnob()\nif k.name() == 'checks':\n\n    #callbacks: pulldown choice changes Switch value\n\n    if check == 'Comp':\n        switch.setValue(0)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(False)\n        ntn.knob('wipe_inv').setVisible(False)\n        ntn.knob('wipe_vertical').setVisible(False)\n        ntn.knob('wipe_buttonSwitch').setVisible(False)\n        ntn.knob('saturation').setVisible(False)\n\n    elif check == 'Difference':\n        switch.setValue(1)\n        ntn.knob('gain_diff').setVisible(True)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(False)\n        ntn.knob('wipe_inv').setVisible(False)\n        ntn.knob('wipe_vertical').setVisible(False)\n        ntn.knob('wipe_buttonSwitch').setVisible(False)\n        ntn.knob('saturation').setVisible(False)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_Diff').setValue(True)\n\n    elif check == 'Clipping':\n        switch.setValue(2)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(True)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('saturation').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(False)\n        ntn.knob('wipe_inv').setVisible(False)\n        ntn.knob('wipe_vertical').setVisible(False)\n        ntn.knob('wipe_buttonSwitch').setVisible(False)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_Clip').setValue(True)\n\n    elif check == 'High Exposure':\n        switch.setValue(3)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(True)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(False)\n        ntn.knob('wipe_inv').setVisible(False)\n        ntn.knob('wipe_vertical').setVisible(False)\n        ntn.knob('wipe_buttonSwitch').setVisible(False)\n        ntn.knob('saturation').setVisible(False)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_highExpo').setValue(True)\n\n\n    elif check == 'Low Exposure':\n        switch.setValue(4)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(True)\n        ntn.knob('saturation').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(False)\n        ntn.knob('wipe_inv').setVisible(False)\n        ntn.knob('wipe_vertical').setVisible(False)\n        ntn.knob('wipe_buttonSwitch').setVisible(False)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_lowExpo').setValue(True)\n\n\n    elif check == 'Saturation':\n        switch.setValue(5)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(False)\n        ntn.knob('wipe_inv').setVisible(False)\n        ntn.knob('wipe_vertical').setVisible(False)\n        ntn.knob('wipe_buttonSwitch').setVisible(False)\n        ntn.knob('saturation').setVisible(True)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_sat').setValue(True)\n\n\n    elif check == 'NaN-inf-zero blacks':\n        switch.setValue(6)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('saturation').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(True)\n        ntn.knob('illegal_nan').setVisible(True)\n        ntn.knob('illegal_inf').setVisible(True)\n        ntn.knob('illegal_negative').setVisible(True)\n        ntn.knob('illegal_erode').setVisible(True)\n        ntn.knob('Wipe').setVisible(False)\n        ntn.knob('wipe_inv').setVisible(False)\n        ntn.knob('wipe_vertical').setVisible(False)\n        ntn.knob('wipe_buttonSwitch').setVisible(False)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_illegal').setValue(True)\n\n\n    elif check == 'Grain':\n        switch.setValue(7)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('saturation').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(True)\n        ntn.knob('wipe_inv').setVisible(True)\n        ntn.knob('wipe_vertical').setVisible(True)\n        ntn.knob('wipe_buttonSwitch').setVisible(True)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_Grain').setValue(True)\n\n    elif check == 'BBox':\n        switch.setValue(8)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('saturation').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(False)\n        ntn.knob('wipe_inv').setVisible(False)\n        ntn.knob('wipe_vertical').setVisible(False)\n\n        ntn.knob('wipe_buttonSwitch').setVisible(False)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_BBox').setValue(True)\n\n    elif check == 'Compare Plate-Comp':\n        switch.setValue(9)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('saturation').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(True)\n        ntn.knob('wipe_inv').setVisible(True)\n        ntn.knob('wipe_vertical').setVisible(True)\n        ntn.knob('wipe_buttonSwitch').setVisible(True)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_plateComp').setValue(True)\n\n    elif check == 'Compare Reference':\n        switch.setValue(10)\n        ntn.knob('gain_diff').setVisible(False)\n        ntn.knob('clip_maxValue').setVisible(False)\n        ntn.knob('gain_high').setVisible(False)\n        ntn.knob('gain_low').setVisible(False)\n        ntn.knob('saturation').setVisible(False)\n        ntn.knob('illegal_Zero').setVisible(False)\n        ntn.knob('illegal_nan').setVisible(False)\n        ntn.knob('illegal_inf').setVisible(False)\n        ntn.knob('illegal_negative').setVisible(False)\n        ntn.knob('illegal_erode').setVisible(False)\n        ntn.knob('Wipe').setVisible(True)\n        ntn.knob('wipe_inv').setVisible(True)\n        ntn.knob('wipe_vertical').setVisible(True)\n        ntn.knob('wipe_buttonSwitch').setVisible(True)\n        if ntn.knob('autoChecks').value() == 1:\n            ntn.knob('CHK_ref').setValue(True)\n\n\n\ndef changeNodeColor():\n\n    checkKnobs = \[\n    ntn.knob('CHK_Diff').value(),\n    ntn.knob('CHK_Clip').value(),\n    ntn.knob('CHK_highExpo').value(),\n    ntn.knob('CHK_lowExpo').value(),\n    ntn.knob('CHK_sat').value(),\n    ntn.knob('CHK_illegal').value(),\n    ntn.knob('CHK_Grain').value(),\n    ntn.knob('CHK_BBox').value(),\n    ntn.knob('CHK_plateComp').value(),\n    ntn.knob('CHK_ref').value(),\n    ntn.knob('CHK_DImattes').value(),\n    ntn.knob('CHK_notes').value(),\n    ntn.knob('CHK_streched').value()\n    ]\n\n    if all(v == True for v in checkKnobs):\n        ntn\['tile_color'].setValue(14024959)\n        ntn\['label'].setValue('COMPLETE')\n    else:\n        ntn\['tile_color'].setValue(3758096639)\n        ntn\['label'].setValue('INCOMPLETE')\n\nchangeNodeColor()\n\n"
+ tile_color 0xe00000ff
+ label INCOMPLETE
+ note_font "Verdana Bold"
+ selected true
+ xpos 16
+ ypos -89
+ addUserKnob {20 User l QC}
+ addUserKnob {26 tc l "<b><font color=#75adbd>Tech Check</font></b>"}
+ addUserKnob {4 checks l View M {Comp Difference Clipping "Low Exposure" "High Exposure" Saturation "NaN-inf-zero blacks" Grain BBox "Compare Plate-Comp" "Compare Reference" "" "" "" "" "" "" "" "" "" "" "" "" "" "" ""}}
+ addUserKnob {26 space_view_name l "" -STARTLINE T "  "}
+ addUserKnob {6 textOnOff l "Name Overlay On/Off" -STARTLINE}
+ textOnOff true
+ addUserKnob {26 SPACE_views l " " T " "}
+ addUserKnob {6 illegal_Zero l "Show Zero Blacks" +HIDDEN +STARTLINE}
+ illegal_Zero true
+ addUserKnob {6 illegal_nan l "Show NaN" +HIDDEN +STARTLINE}
+ illegal_nan true
+ addUserKnob {6 illegal_inf l "Show Inf" +HIDDEN +STARTLINE}
+ illegal_inf true
+ addUserKnob {6 illegal_negative l "Show Negative Values" +HIDDEN +STARTLINE}
+ addUserKnob {7 illegal_erode l Expand t "Erode to find 1 pixel illegal values more easily" +HIDDEN R 0 100}
+ illegal_erode 41
+ addUserKnob {7 Wipe l "Wipe Comp/Plate" +HIDDEN R 0 100}
+ Wipe 100
+ addUserKnob {6 wipe_inv l "Invert Wipe" +HIDDEN +STARTLINE}
+ addUserKnob {6 wipe_vertical l "Vertical Wipe" -STARTLINE +HIDDEN}
+ addUserKnob {22 wipe_buttonSwitch l ALTERNATE t "Quickly change between the 2 inputs you are comparing" +HIDDEN T "#Quick switch Button\nntn = nuke.thisNode()\nif ntn.knob('Wipe').value() == 0:\n    ntn.knob('Wipe').setValue(100)\nelif ntn.knob('Wipe').value() == 100:\n    ntn.knob('Wipe').setValue(0)\nelse:\n    ntn.knob('Wipe').setValue(0)" +STARTLINE}
+ addUserKnob {7 gain_diff l Gain +HIDDEN R 0 50}
+ gain_diff 50
+ addUserKnob {3 clip_maxValue l "Value Limit" +HIDDEN}
+ clip_maxValue 13
+ addUserKnob {7 gain_high l Gain +HIDDEN R 0 50}
+ gain_high 20
+ addUserKnob {7 gain_low l Gain t "\t" +HIDDEN}
+ gain_low 0.01
+ addUserKnob {7 mult_grain l Gain +HIDDEN R 0 50}
+ mult_grain 100
+ addUserKnob {7 saturation l Saturation +HIDDEN R 0 10}
+ saturation 6
+ addUserKnob {26 DIV_checklist l "<b><font color=#75adbd>Checklist</font></b>"}
+ addUserKnob {6 autoChecks l "Auto Checklist" t "Automatic checklist completion as you scroll through the views" +STARTLINE}
+ autoChecks true
+ addUserKnob {22 reset l "Reset Checklist" T "ntn = nuke.thisNode()\nntn.knob('checks').setValue('Comp')\nntn.knob('CHK_Diff').setValue(False)\nntn.knob('CHK_Clip').setValue(False)\nntn.knob('CHK_highExpo').setValue(False)\nntn.knob('CHK_lowExpo').setValue(False)\nntn.knob('CHK_sat').setValue(False)\nntn.knob('CHK_illegal').setValue(False)\nntn.knob('CHK_Grain').setValue(False)\nntn.knob('CHK_BBox').setValue(False)\nntn.knob('CHK_plateComp').setValue(False)\nntn.knob('CHK_ref').setValue(False)\nntn.knob('CHK_DImattes').setValue(False)\nntn.knob('CHK_notes').setValue(False)\nntn.knob('CHK_streched').setValue(False)" +STARTLINE}
+ addUserKnob {26 SPACE_checklist_1 l " " T " "}
+ addUserKnob {6 CHK_Diff l Difference +STARTLINE}
+ addUserKnob {6 CHK_Clip l "Clipping Values" +STARTLINE}
+ addUserKnob {6 CHK_lowExpo l "Low Exposure - Highlights Check" +STARTLINE}
+ addUserKnob {6 CHK_highExpo l "High Exposure - Black Levels Check" +STARTLINE}
+ addUserKnob {6 CHK_sat l "Saturation Check" +STARTLINE}
+ addUserKnob {6 CHK_illegal l "Illegal Values: NaN, inf, zero blacks" +STARTLINE}
+ addUserKnob {6 CHK_Grain l "Grain Check" +STARTLINE}
+ addUserKnob {6 CHK_BBox l "BBox and Final Format Check" +STARTLINE}
+ addUserKnob {6 CHK_plateComp l "Compare Plate/Comp" +STARTLINE}
+ addUserKnob {6 CHK_ref l "Compare with Reference" +STARTLINE}
+ addUserKnob {26 DIV_manual l "<b><font color=#75adbd>Manual Checks</font></b>"}
+ addUserKnob {6 CHK_streched l "Looked for Streched Pixels" +STARTLINE}
+ addUserKnob {6 CHK_DImattes l "Checked DI mattes" +STARTLINE}
+ addUserKnob {6 CHK_notes l "Addressed notes" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2020 - v1.0</font></b>"}
+ addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+ addUserKnob {20 TABnotes l Notes}
+ addUserKnob {43 "Note 1"}
+ addUserKnob {43 "Note 2"}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x414744ff
+  label "Clipping Area"
+  note_font_size 60
+  xpos -1799
+  ypos -1594
+  bdwidth 411
+  bdheight 357
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode10
+  tile_color 0x383147ff
+  label Difference
+  note_font_size 60
+  xpos -2423
+  ypos -1599
+  bdwidth 522
+  bdheight 404
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode12
+  tile_color 0x383147ff
+  label Switch
+  note_font_size 60
+  xpos 124
+  ypos 51
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode13
+  tile_color 0x242b20ff
+  label "Comp In"
+  note_font_size 60
+  xpos -2891
+  ypos -1590
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode14
+  tile_color 0x242b20ff
+  label Plate/Comp
+  note_font_size 60
+  xpos 3781
+  ypos -1615
+  bdwidth 672
+  bdheight 541
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode15
+  tile_color 0x21271dff
+  label "Reference In"
+  note_font_size 60
+  xpos 4536
+  ypos -1608
+  bdwidth 748
+  bdheight 544
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x464746ff
+  label "High Expo"
+  note_font_size 60
+  xpos -799
+  ypos -1586
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode20
+  tile_color 0x414744ff
+  label BBOX
+  note_font_size 60
+  xpos 2929
+  ypos -1588
+  bdwidth 665
+  bdheight 700
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode21
+  tile_color 0x383147ff
+  label "illegal values"
+  note_font_size 60
+  xpos 92
+  ypos -1790
+  bdwidth 1663
+  bdheight 1045
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode23
+  tile_color 0x241b19ff
+  label GRAIN
+  note_font_size 60
+  xpos 1765
+  ypos -1803
+  bdwidth 1145
+  bdheight 1106
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode4
+  tile_color 0x3d403dff
+  label "Low Expo"
+  note_font_size 60
+  xpos -1319
+  ypos -1601
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode5
+  tile_color 0x3b4735ff
+  label "Comp In"
+  note_font_size 60
+  xpos 688
+  ypos -2378
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode6
+  tile_color 0x3b4735ff
+  label "Plate In"
+  note_font_size 60
+  xpos 215
+  ypos -2377
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode7
+  tile_color 0x3b4735ff
+  label Output
+  note_font_size 60
+  xpos 129
+  ypos 328
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode8
+  tile_color 0x3b4735ff
+  label "Reference In"
+  note_font_size 60
+  xpos -250
+  ypos -2378
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode9
+  tile_color 0x414744ff
+  label Saturation
+  note_font_size 60
+  xpos -309
+  ypos -1599
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode11
+  tile_color 0x473532ff
+  label "Grain QC Comp"
+  note_font_size 60
+  xpos 2339
+  ypos -1597
+  bdwidth 522
+  bdheight 416
+  z_order 1
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode16
+  tile_color 0x414744ff
+  label inf
+  note_font_size 60
+  xpos 516
+  ypos -1608
+  bdwidth 380
+  bdheight 250
+  z_order 1
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode17
+  tile_color 0x414744ff
+  label NaN
+  note_font_size 60
+  xpos 118
+  ypos -1608
+  bdwidth 380
+  bdheight 250
+  z_order 1
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode18
+  tile_color 0x414744ff
+  label negative
+  note_font_size 60
+  xpos 1335
+  ypos -1601
+  bdwidth 380
+  bdheight 250
+  z_order 1
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode19
+  tile_color 0x414744ff
+  label "zero blacks"
+  note_font_size 60
+  xpos 913
+  ypos -1604
+  bdwidth 380
+  bdheight 250
+  z_order 1
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x473532ff
+  label "Grain QC Plate"
+  note_font_size 60
+  xpos 1795
+  ypos -1599
+  bdwidth 522
+  bdheight 416
+  z_order 1
+ }
+ Input {
+  inputs 0
+  name Comp
+  xpos 837
+  ypos -2233
+ }
+set N4f1aa000 [stack 0]
+ NoOp {
+  name COMP13
+  note_font "Verdana Bold"
+  xpos 4884
+  ypos -1504
+  hide_input true
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.675
+  message COMP
+  old_message {{67 79 77 80}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 81.92 1 81.91999817 2 81.91999817 3 81.91999817 0 {curve x1001 81.92}}
+    }
+  cursor_position 4
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text6
+  label "\[value message]"
+  xpos 4884
+  ypos -1431
+  disable {{textOnOff==0?1:0}}
+ }
+set N4f1f1800 [stack 0]
+ Dot {
+  name Dot32
+  xpos 4764
+  ypos -1419
+ }
+set N4f1f1400 [stack 0]
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 y>height*wipe?1:0
+  name Expression_vertical1
+  xpos 4730
+  ypos -1300
+  addUserKnob {20 User}
+  addUserKnob {7 wipe}
+  wipe {{parent.Expression_horizontal1.wipeX}}
+ }
+push $N4f1f1400
+ Dot {
+  name Dot33
+  xpos 4629
+  ypos -1419
+ }
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 x>width*wipeX?1:0
+  name Expression_horizontal1
+  xpos 4595
+  ypos -1371
+  addUserKnob {20 User}
+  addUserKnob {7 wipeX}
+  wipeX {{Wipe/100}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.wipe_vertical}}
+  name Switch_wipe1
+  xpos 4595
+  ypos -1300
+ }
+ Invert {
+  channels alpha
+  name InvertWipe1
+  xpos 4595
+  ypos -1231
+  disable {{wipe_inv x1001 1}}
+ }
+ Dot {
+  name Dot34
+  xpos 4629
+  ypos -1139
+ }
+ Input {
+  inputs 0
+  name Ref
+  xpos -107
+  ypos -2225
+  number 2
+ }
+ NoOp {
+  name REFERENCE
+  note_font "Verdana Bold"
+  xpos 5046
+  ypos -1498
+  hide_input true
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.675
+  message REFERENCE
+  old_message {{82 69 70 69 82 69 78 67 69}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 81.92 1 81.91999817 2 81.91999817 3 81.91999817 4 81.91999817 5 81.91999817 6 81.91999817 7 81.91999817 8 81.91999817 0 {curve x1001 81.92}}
+    }
+  cursor_position 9
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text7
+  label "\[value message]"
+  xpos 5046
+  ypos -1431
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot35
+  xpos 5084
+  ypos -1139
+ }
+push $N4f1f1800
+ Dissolve {
+  inputs 2+1
+  which 1
+  name Dissolve3
+  xpos 4884
+  ypos -1151
+ }
+ Dot {
+  name Dot5
+  xpos 4918
+  ypos -314
+ }
+ Input {
+  inputs 0
+  name Plate
+  xpos 364
+  ypos -2223
+  number 1
+ }
+set N4f272000 [stack 0]
+ NoOp {
+  name PLATE2
+  note_font "Verdana Bold"
+  xpos 4128
+  ypos -1565
+  hide_input true
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.675
+  message PLATE
+  old_message {{80 76 65 84 69}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 81.92 1 81.91999817 2 81.91999817 3 81.91999817 4 81.91999817 0 {curve x1001 81.92}}
+    }
+  cursor_position 5
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text1
+  label "\[value message]"
+  xpos 4128
+  ypos -1500
+  disable {{textOnOff==0?1:0}}
+ }
+set N4f2e3800 [stack 0]
+ Dot {
+  name Dot30
+  xpos 4008
+  ypos -1488
+ }
+set N4f2e3400 [stack 0]
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 y>height*wipe?1:0
+  name Expression_vertical
+  xpos 3974
+  ypos -1369
+  addUserKnob {20 User}
+  addUserKnob {7 wipe}
+  wipe {{parent.Expression_horizontal.wipeX}}
+ }
+push $N4f2e3400
+ Dot {
+  name Dot29
+  xpos 3873
+  ypos -1488
+ }
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 x>width*wipeX?1:0
+  name Expression_horizontal
+  xpos 3839
+  ypos -1440
+  addUserKnob {20 User}
+  addUserKnob {7 wipeX}
+  wipeX {{Wipe/100}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.wipe_vertical}}
+  name Switch_wipe
+  xpos 3839
+  ypos -1369
+ }
+ Invert {
+  channels alpha
+  name InvertWipe
+  xpos 3839
+  ypos -1300
+  disable {{wipe_inv x1001 1}}
+ }
+ Dot {
+  name Dot31
+  xpos 3873
+  ypos -1208
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP11
+  note_font "Verdana Bold"
+  xpos 4294
+  ypos -1559
+  hide_input true
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.675
+  message COMP
+  old_message {{67 79 77 80}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 81.92 1 81.91999817 2 81.91999817 3 81.91999817 0 {curve x1001 81.92}}
+    }
+  cursor_position 4
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text5
+  label "\[value message]"
+  xpos 4294
+  ypos -1497
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot21
+  xpos 4328
+  ypos -1208
+ }
+push $N4f2e3800
+ Dissolve {
+  inputs 2+1
+  which 1
+  name Dissolve1
+  xpos 4128
+  ypos -1220
+ }
+ Dot {
+  name Dot18
+  xpos 4162
+  ypos -314
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP12
+  note_font "Verdana Bold"
+  xpos 3223
+  ypos -1537
+  hide_input true
+ }
+ NoOp {
+  name bbox_check
+  xpos 3223
+  ypos -1492
+  addUserKnob {20 User}
+  addUserKnob {3 bbox}
+  bbox {{(input.width*input.height)<(bbox.w*bbox.h)?1:0}}
+ }
+ Dot {
+  name Dot27
+  xpos 3257
+  ypos -1448
+ }
+set N4d0b7c00 [stack 0]
+ Expression {
+  expr0 .5
+  expr1 0
+  expr2 0
+  expr3 0
+  name Expression6
+  xpos 3223
+  ypos -1408
+ }
+ Text2 {
+  font_size_toolbar {{input.width/25}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.675
+  message "BBOX IS BIGGER THAN FORMAT BOUNDARY"
+  old_message {{65 84 69 78 67 65 79 33 32 66 66 79 88 32 77 65 73 79 82 32 81 85 69 32 79 32 70 79 82 77 65 84 79}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 {input.width/25} 1 {input.width/25} 2 {input.width/25} 3 {input.width/25} 4 {input.width/25} 5 {input.width/25} 6 {input.width/25} 7 {input.width/25} 8 {input.width/25} 9 {input.width/25} 10 {input.width/25} 11 {input.width/25} 12 {input.width/25} 13 {input.width/25} 14 {input.width/25} 15 {input.width/25} 16 {input.width/25} 17 {input.width/25} 18 {input.width/25} 19 {input.width/25} 20 {input.width/25} 21 {input.width/25} 22 {input.width/25} 23 {input.width/25} 24 {input.width/25} 25 {input.width/25} 26 {input.width/25} 27 {input.width/25} 28 {input.width/25} 29 {input.width/25} 30 {input.width/25} 31 {input.width/25} 32 {input.width/25}}
+    }
+  font_size {{input.width/25}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text2
+  label "\[value message]"
+  xpos 3223
+  ypos -1288
+ }
+push $N4d0b7c00
+ Dot {
+  name Dot16
+  xpos 3115
+  ypos -1448
+ }
+ Expression {
+  expr0 0
+  expr1 .5
+  expr2 0
+  expr3 0
+  name Expression7
+  xpos 3081
+  ypos -1404
+ }
+ Text2 {
+  font_size_toolbar 204.8000031
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.91
+  message "BBOX OK"
+  old_message {{66 66 79 88 32 79 75}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 204.8 1 204.8000031 2 204.8000031 3 204.8000031 4 204.8000031 5 204.8000031 6 204.8000031}
+    }
+  cursor_position 2
+  font_size 204.8000031
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  color {0 0 0 1}
+  color_panelDropped true
+  name Text3
+  label "\[value message]"
+  xpos 3081
+  ypos -1343
+ }
+ Dot {
+  name Dot20
+  xpos 3115
+  ypos -1174
+ }
+ Switch {
+  inputs 2
+  which {{parent.bbox_check.bbox}}
+  name Switch1
+  xpos 3223
+  ypos -1178
+ }
+set N4d0b6000 [stack 0]
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  name Expression8
+  xpos 3409
+  ypos -1178
+ }
+ Text2 {
+  font_size_toolbar {{input.width/20}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.815
+  message "\n\n\n\n\nInput format is different from project format"
+  old_message {{10 10 10 10 10 70 111 114 109 97 116 111 32 100 111 32 105 110 112 117 116 32 100 105 102 101 114 101 110 116 101 32 100 111 32 102 111 114 109 97 116 111 32 100 111 32 112 114 111 106 101 116 111}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  transforms {{0 2}
+    }
+  font_size_values {{0 38.40000153 1 38.40000153 2 38.40000153 3 38.40000153 4 38.40000153 5 {input.width/20} 6 {input.width/20} 7 {input.width/20} 8 {input.width/20} 9 {input.width/20} 10 {input.width/20} 11 {input.width/20} 12 {input.width/20} 13 {input.width/20} 14 {input.width/20} 15 {input.width/20} 16 {input.width/20} 17 {input.width/20} 18 {input.width/20} 19 {input.width/20} 20 {input.width/20} 21 {input.width/20} 22 {input.width/20} 23 {input.width/20} 24 {input.width/20} 25 {input.width/20} 26 {input.width/20} 27 {input.width/20} 28 {input.width/20} 29 {input.width/20} 30 {input.width/20} 31 {input.width/20} 32 {input.width/20} 33 {input.width/20} 34 {input.width/20} 35 {input.width/20} 36 {input.width/20} 37 {input.width/20} 38 {input.width/20} 39 {input.width/20} 40 {input.width/20} 41 {input.width/20} 42 {input.width/20} 43 {input.width/20} 44 {input.width/20} 45 {input.width/20} 46 {input.width/20} 47 {input.width/20} 48 {input.width/20} 49 {input.width/20} 50 {input.width/20} 51 {input.width/20} 52 {input.width/20}}
+    }
+  cursor_position 5
+  font_size {{input.width/20}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text4
+  label "\[value message]"
+  xpos 3409
+  ypos -1115
+ }
+push $N4d0b6000
+ Merge2 {
+  inputs 2
+  operation plus
+  mix {{(root.width*root.height)==(input.width*input.height)?0:1}}
+  name Merge4
+  xpos 3223
+  ypos -1070
+ }
+ Dot {
+  name Dot17
+  xpos 3258
+  ypos -314
+ }
+push $N4f272000
+ NoOp {
+  name PLATE1
+  note_font "Verdana Bold"
+  xpos 2090
+  ypos -1446
+  hide_input true
+ }
+ Dot {
+  name Dot41
+  xpos 2124
+  ypos -1391
+ }
+set N4d0d4800 [stack 0]
+ Dot {
+  name Dot36
+  xpos 1954
+  ypos -1391
+ }
+ Blur {
+  channels rgb
+  size 1
+  name Blur1
+  xpos 1920
+  ypos -1328
+ }
+push $N4d0d4800
+ Merge2 {
+  inputs 2
+  operation difference
+  bbox B
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge10
+  xpos 2090
+  ypos -1328
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.675
+  message "PLATE GRAIN"
+  old_message {{80 76 65 84 69 32 71 82 65 73 78}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 81.91999817 1 81.91999817 2 81.91999817 3 81.91999817 4 81.91999817 5 81.91999817 6 81.91999817 7 81.91999817 8 81.91999817 9 81.91999817 10 81.91999817}
+    }
+  cursor_position 11
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text8
+  label "\[value message]"
+  xpos 2090
+  ypos -1145
+  disable {{textOnOff==0?1:0}}
+ }
+set N4f38d800 [stack 0]
+ Dot {
+  name Dot22
+  xpos 1970
+  ypos -1133
+ }
+set N4f38d400 [stack 0]
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 y>height*wipe?1:0
+  name Expression_vertical2
+  xpos 1936
+  ypos -990
+  addUserKnob {20 User}
+  addUserKnob {7 wipe}
+  wipe {{parent.Expression_horizontal2.wipeX}}
+ }
+push $N4f38d400
+ Dot {
+  name Dot37
+  xpos 1835
+  ypos -1133
+ }
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 x>width*wipeX?1:0
+  name Expression_horizontal2
+  xpos 1801
+  ypos -1061
+  addUserKnob {20 User}
+  addUserKnob {7 wipeX}
+  wipeX {{Wipe/100}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.wipe_vertical}}
+  name Switch_wipe2
+  xpos 1801
+  ypos -990
+ }
+ Invert {
+  channels alpha
+  name InvertWipe2
+  xpos 1801
+  ypos -921
+  disable {{wipe_inv x1001 1}}
+ }
+ Dot {
+  name Dot38
+  xpos 1835
+  ypos -829
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP2
+  note_font "Verdana Bold"
+  xpos 2494
+  ypos -1439
+  hide_input true
+ }
+ Dot {
+  name Dot2
+  xpos 2528
+  ypos -1384
+ }
+set N4f4e3400 [stack 0]
+ Dot {
+  name Dot3
+  xpos 2670
+  ypos -1384
+ }
+ Blur {
+  channels rgb
+  size 1
+  name Blur2
+  xpos 2636
+  ypos -1321
+ }
+push $N4f4e3400
+ Merge2 {
+  inputs 2
+  operation difference
+  bbox B
+  Achannels rgb
+  Bchannels rgb
+  output rgb
+  name Merge2
+  xpos 2494
+  ypos -1321
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.675
+  message "COMP GRAIN"
+  old_message {{67 79 77 80 32 71 82 65 73 78}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 81.92 1 81.91999817 2 81.91999817 3 81.91999817 4 81.91999817 5 81.91999817 6 81.91999817 7 81.91999817 8 81.91999817 9 81.91999817 0 {curve x1001 81.92}}
+    }
+  cursor_position 10
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  name Text9
+  label "\[value message]"
+  xpos 2494
+  ypos -1135
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot39
+  xpos 2528
+  ypos -829
+ }
+push $N4f38d800
+ Dissolve {
+  inputs 2+1
+  which 1
+  name Dissolve2
+  xpos 2090
+  ypos -841
+ }
+ Saturation {
+  saturation 3
+  name Saturation2
+  xpos 2090
+  ypos -786
+ }
+ Grade {
+  white 800
+  add -0.175
+  name Grade2
+  xpos 2090
+  ypos -740
+ }
+ Dot {
+  name Dot15
+  xpos 2124
+  ypos -299
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP9
+  note_font "Verdana Bold"
+  xpos 1506
+  ypos -1505
+  hide_input true
+ }
+ Expression {
+  expr0 "r < 0 ? 1 : 0"
+  expr1 "g < 0 ? 1 : 0"
+  expr2 "b < 0 ? 1 : 0"
+  name Expression4
+  xpos 1506
+  ypos -1463
+ }
+ Dot {
+  name Dot4
+  xpos 1540
+  ypos -1017
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP10
+  note_font "Verdana Bold"
+  xpos 1084
+  ypos -1508
+  hide_input true
+ }
+ Expression {
+  expr0 "r==0 &&  g==0 && b==0 ? 1 : 0"
+  expr1 0
+  expr2 0
+  name Expression5
+  xpos 1084
+  ypos -1467
+ }
+ Dot {
+  name Dot28
+  xpos 1118
+  ypos -1178
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP8
+  note_font "Verdana Bold"
+  xpos 655
+  ypos -1517
+  hide_input true
+ }
+ Expression {
+  expr0 isinf(r)
+  expr1 isinf(g)
+  expr2 isinf(b)
+  channel3 {none none none -rgba.alpha}
+  name Expression2
+  xpos 655
+  ypos -1468
+ }
+ Dot {
+  name Dot6
+  xpos 689
+  ypos -1293
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP7
+  note_font "Verdana Bold"
+  xpos 288
+  ypos -1528
+  hide_input true
+ }
+ Dot {
+  name Dot14
+  xpos 322
+  ypos -1474
+ }
+set N4d42c400 [stack 0]
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  channel3 {none none none -rgba.alpha}
+  name Expression9
+  xpos 155
+  ypos -1478
+ }
+ Dot {
+  name Dot13
+  xpos 189
+  ypos -1384
+ }
+push $N4d42c400
+ Expression {
+  expr0 isnan(r)
+  expr1 isnan(g)
+  expr2 isnan(b)
+  channel3 {none none none -rgba.alpha}
+  name Expression1
+  xpos 288
+  ypos -1440
+ }
+ Switch {
+  inputs 2
+  which {{parent.illegal_nan==0?1:0}}
+  name SwitchNAN
+  xpos 288
+  ypos -1388
+ }
+ Merge2 {
+  inputs 2
+  name Merge_inf
+  xpos 288
+  ypos -1297
+  disable {{illegal_inf==0?1:0}}
+ }
+ Merge2 {
+  inputs 2
+  name Merge_zero
+  xpos 288
+  ypos -1182
+  disable {{illegal_Zero==0?1:0}}
+ }
+ Merge2 {
+  inputs 2
+  name Merge_negative
+  xpos 288
+  ypos -1021
+  disable {{illegal_negative==0?1:0}}
+ }
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  reformat true
+  crop false
+  name Crop1
+  xpos 288
+  ypos -975
+ }
+ FilterErode {
+  channels rgb
+  size {{illegal_erode/-1}}
+  name FilterErode1
+  xpos 288
+  ypos -930
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.5
+  message "illegal values"
+  old_message {{105 108 108 101 103 97 108 32 118 97 108 117 101 115}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 40 1 40 2 40 3 40 4 40 5 40 6 40 7 40 8 40 9 40 10 40 11 40 12 40 13 40}
+    }
+  cursor_position 14
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  enable_shadows true
+  name txt_nan
+  label "\[value message]"
+  xpos 288
+  ypos -888
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot11
+  xpos 322
+  ypos -322
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP4
+  note_font "Verdana Bold"
+  xpos -141
+  ypos -1485
+  hide_input true
+ }
+ Saturation {
+  saturation {{parent.saturation}}
+  name Saturation1
+  xpos -141
+  ypos -1452
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.5
+  message Saturation
+  old_message {{83 97 116 117 114 97 116 105 111 110}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 40 1 40 2 40 3 40 4 40 5 40 6 40 7 40 8 40 9 40}
+    }
+  cursor_position 10
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  enable_shadows true
+  name txt_sat
+  label "\[value message]"
+  xpos -141
+  ypos -1416
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot10
+  xpos -107
+  ypos -304
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP3
+  note_font "Verdana Bold"
+  xpos -1169
+  ypos -1494
+  hide_input true
+ }
+ Grade {
+  white {{parent.gain_low}}
+  name Grade_low
+  xpos -1169
+  ypos -1450
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.5
+  message "Low Exposure"
+  old_message {{76 111 119 32 69 120 112 111 115 117 114 101}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 40 1 40 2 40 3 40 4 40 5 40 6 40 7 40 8 40 9 40 10 40 11 40}
+    }
+  cursor_position 12
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  enable_shadows true
+  name txt_lowExpo
+  label "\[value message]"
+  xpos -1169
+  ypos -1424
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot9
+  xpos -1135
+  ypos -312
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP1
+  note_font "Verdana Bold"
+  xpos -649
+  ypos -1480
+  hide_input true
+ }
+ Grade {
+  white {{parent.gain_high}}
+  name Grade_high
+  xpos -649
+  ypos -1441
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.5
+  message "High Exposure"
+  old_message {{72 105 103 104 32 69 120 112 111 115 117 114 101}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 40 1 40 2 40 3 40 4 40 5 40 6 40 7 40 8 40 9 40 10 40 11 40 12 40}
+    }
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  enable_shadows true
+  name txt_expoHigh
+  label "\[value message]"
+  xpos -649
+  ypos -1398
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot12
+  xpos -615
+  ypos -316
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP5
+  note_font "Verdana Bold"
+  xpos -1641
+  ypos -1484
+  hide_input true
+ }
+ Expression {
+  expr0 r>=maxValue?r:0
+  expr1 g>=maxValue?g:0
+  expr2 b>=maxValue?b:0
+  channel3 {none none none -rgba.alpha}
+  name Expression3
+  xpos -1640
+  ypos -1437
+  addUserKnob {20 User}
+  addUserKnob {3 maxValue}
+  maxValue {{parent.clip_maxValue}}
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.5
+  message "Clipping Values"
+  old_message {{67 108 105 112 112 105 110 103 32 86 97 108 117 101 115}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 40 1 40 2 40 3 40 4 40 5 40 6 40 7 40 8 40 9 40 10 40 11 40 12 40 13 40 14 40}
+    }
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  enable_shadows true
+  name txt_clip
+  label "\[value message]"
+  xpos -1640
+  ypos -1381
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot19
+  xpos -1606
+  ypos -314
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP
+  note_font "Verdana Bold"
+  xpos -2074
+  ypos -1467
+  hide_input true
+ }
+ Dot {
+  name Dot1
+  xpos -2040
+  ypos -1373
+ }
+push $N4f272000
+ NoOp {
+  name PLATE
+  note_font "Verdana Bold"
+  xpos -2249
+  ypos -1465
+  hide_input true
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge1
+  xpos -2249
+  ypos -1377
+ }
+ Grade {
+  white {{parent.gain_diff}}
+  name Grade_Difference
+  xpos -2249
+  ypos -1329
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.5
+  message "Plate/Comp Difference"
+  old_message {{80 108 97 116 101 47 67 111 109 112 32 68 105 102 102 101 114 101 110 99 101}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 40 1 40 2 40 3 40 4 40 5 40 6 40 7 40 8 40 9 40 10 40 11 40 12 40 13 40 14 40 15 40 16 40 17 40 18 40 19 40 20 40}
+    }
+  cursor_position 21
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  enable_shadows true
+  name txt_Diff
+  label "\[value message]"
+  xpos -2249
+  ypos -1285
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot7
+  xpos -2215
+  ypos -327
+ }
+push $N4f1aa000
+ NoOp {
+  name COMP6
+  note_font "Verdana Bold"
+  xpos -2784
+  ypos -1451
+  hide_input true
+ }
+ Text2 {
+  font_size_toolbar {{input.width/50}}
+  font_width_toolbar 100
+  font_height_toolbar 100
+  cliptype none
+  opacity 0.5
+  message COMP
+  old_message {{67 79 77 80}
+    }
+  box {0 0 {input.width} {input.height}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  font_size_values {{0 40 1 40 2 40 3 40}
+    }
+  cursor_position 4
+  font_size {{input.width/50}}
+  scale {1 1}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1080}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+    }
+  enable_shadows true
+  name txt_comp
+  label "\[value message]"
+  xpos -2784
+  ypos -1390
+  disable {{textOnOff==0?1:0}}
+ }
+ Dot {
+  name Dot8
+  xpos -2750
+  ypos -334
+ }
+ Switch {
+  inputs 11
+  name _Switch
+  xpos 288
+  ypos 214
+ }
+ Output {
+  name Output
+  xpos 289
+  ypos 510
+ }
+end_group

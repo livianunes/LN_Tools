@@ -1,0 +1,174 @@
+Group {
+ name LN_DepthFromDeep
+ tile_color 0x583dafff
+ note_font "Bitstream Vera Sans Bold"
+ selected true
+ xpos -339
+ ypos -34
+ addUserKnob {20 User}
+ addUserKnob {26 explain l "<b>DepthFromDeep</b> " T "\nYou can use the points in the viewer to sample the near and far position\nand then press Set Position."}
+ addUserKnob {41 nearest_position l "Nearest Position" T DeepSample_near.nearest_position}
+ addUserKnob {41 far_position l "Far Position" T DeepSample_far.far_position}
+ addUserKnob {22 Set l "Set Position" T "ntn = nuke.thisNode()\n\nwith nuke.thisGroup():\n\n    near = nuke.toNode('DeepSample_near').knob('near_sample').getValue()\n    far = nuke.toNode('DeepSample_far').knob('far_sample').getValue()\n\nntn.knob('near').setValue(near)\nntn.knob('far').setValue(far)\n\n    \n\n\n" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 explain2 l " " T "Adjust the values below if needed"}
+ addUserKnob {7 near R 0 100}
+ addUserKnob {7 far R 0 1000}
+ addUserKnob {6 unpremult l Unpremult +STARTLINE}
+ unpremult true
+ addUserKnob {20 about}
+ addUserKnob {26 create l "Created by" T "Livia Nunes. Ping me if you have any questions"}
+}
+ Input {
+  inputs 0
+  name image
+  xpos 0
+  ypos -143
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove2
+  label "\[value channels] & \[value channels2]\n\[value channels3] & \[value channels4]"
+  xpos 0
+  ypos -92
+ }
+ Dot {
+  name Dot2
+  note_font_size 40
+  xpos 34
+  ypos 8
+ }
+set Nac5c670 [stack 0]
+ Dot {
+  name Dot3
+  note_font_size 40
+  xpos 221
+  ypos 8
+ }
+ Clamp {
+  channels alpha
+  name Clamp1
+  xpos 187
+  ypos 510
+ }
+ Dot {
+  name Dot4
+  note_font_size 40
+  xpos 221
+  ypos 588
+ }
+push $Nac5c670
+ Input {
+  inputs 0
+  name deep_data
+  xpos 335
+  ypos -129
+  number 1
+ }
+ Dot {
+  name Dot1
+  note_font_size 40
+  xpos 369
+  ypos 106
+ }
+set Nac80530 [stack 0]
+ DeepRecolor {
+  inputs 2
+  name DeepRecolor1
+  xpos 0
+  ypos 102
+ }
+set Nac866d0 [stack 0]
+ DeepToImage2 {
+  name DeepToImage1
+  xpos -230
+  ypos 102
+ }
+ Shuffle {
+  red white
+  green white
+  blue white
+  alpha white
+  name Shuffle2
+  xpos -230
+  ypos 207
+ }
+push $Nac866d0
+ DeepRecolor {
+  inputs 2
+  name DeepRecolor2
+  xpos 0
+  ypos 207
+ }
+ DeepColorCorrect2 {
+  gain 0
+  zmap {{parent.near} {parent.far} 1 1}
+  limit_z true
+  name DeepColorCorrect3
+  xpos 0
+  ypos 330
+ }
+ DeepToImage2 {
+  name DeepToImage2
+  xpos 0
+  ypos 399
+ }
+ Unpremult {
+  name Unpremult1
+  xpos 0
+  ypos 481
+  disable {{!unpremult}}
+ }
+ Invert {
+  channels rgba
+  name Invert1
+  xpos 0
+  ypos 525
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 0
+  ypos 578
+ }
+ Remove {
+  operation keep
+  channels rgba
+  name Remove1
+  label "\[value channels] & \[value channels2]\n\[value channels3] & \[value channels4]"
+  xpos 0
+  ypos 631
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 804
+ }
+push $Nac80530
+ DeepSample {
+  pos {{far_position.x} {far_position.y}}
+  name DeepSample_far
+  xpos 476
+  ypos 199
+  addUserKnob {20 User}
+  addUserKnob {7 far_sample l "far sample"}
+  far_sample {{((minz+maxz)/2)*2}}
+  addUserKnob {12 far_position l "Far Position"}
+  far_position {823 308}
+ }
+push $Nac80530
+ DeepSample {
+  pos {{nearest_position.x} {nearest_position.y}}
+  name DeepSample_near
+  xpos 335
+  ypos 197
+  addUserKnob {20 User}
+  addUserKnob {7 near_sample l "near sample"}
+  near_sample {{((minz+maxz)/2)*-1.5}}
+  addUserKnob {12 nearest_position l "Nearest Position"}
+  nearest_position {789 44}
+ }
+end_group

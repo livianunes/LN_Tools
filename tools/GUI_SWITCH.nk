@@ -1,0 +1,11 @@
+Switch {
+which 1
+name Switch9
+tile_color 0x85b500ff
+label "GUI SWITCH"
+note_font "Bitstream Vera Sans Bold"
+selected true
+xpos 24700
+ypos -39467
+disable {{"!\$gui"}}
+}

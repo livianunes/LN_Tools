@@ -1,0 +1,386 @@
+Group {
+name LN_ColorMatch
+tile_color 0x25067eff
+selected true
+xpos 14093
+ypos -32486
+addUserKnob {20 User}
+addUserKnob {41 Type T callbacks_.Type}
+addUserKnob {26 ""}
+addUserKnob {7 blur l Blur R 1 1000}
+blur 75
+addUserKnob {7 ColorMix l Mix}
+ColorMix 0.5
+addUserKnob {7 HueMix l "Hue Mix" +HIDDEN}
+HueMix 0.5
+addUserKnob {7 SaturationMix l "Saturation Mix" +HIDDEN}
+SaturationMix 0.5
+addUserKnob {7 ValueMix l "Value Mix" +HIDDEN}
+ValueMix 0.5
+}
+BackdropNode {
+inputs 0
+name BackdropNode1
+tile_color 0x414744ff
+label "MINUS PLUS DIVIDE MULTIPLY"
+note_font_size 60
+xpos -419
+ypos 277
+bdwidth 1505
+bdheight 1172
+}
+BackdropNode {
+inputs 0
+name BackdropNode2
+tile_color 0x444744ff
+label HSV
+note_font_size 60
+xpos -2106
+ypos -387
+bdwidth 1266
+bdheight 1772
+}
+BackdropNode {
+inputs 0
+name BackdropNode3
+tile_color 0x3b4735ff
+label CALLBACKS
+note_font_size 60
+xpos 615
+ypos -247
+bdwidth 380
+bdheight 250
+}
+Input {
+inputs 0
+name FINAL_PLATE
+xpos -78
+ypos -241
+}
+set N382da370 [stack 0]
+Dot {
+name Dot6
+xpos -44
+ypos 427
+}
+set N381ce5c0 [stack 0]
+Dot {
+name Dot13
+xpos 264
+ypos 427
+}
+set N383ce300 [stack 0]
+Dot {
+name Dot14
+xpos 264
+ypos 2303
+}
+set Nd2ef4500 [stack 0]
+Dot {
+name Dot15
+xpos 264
+ypos 2436
+}
+push $Nd2ef4500
+push $N382da370
+Dot {
+name Dot16
+xpos -992
+ypos -237
+}
+set N388da200 [stack 0]
+Dot {
+name Dot23
+xpos -992
+ypos 1091
+}
+Input {
+inputs 0
+name COLOR
+xpos -269
+ypos -99
+number 1
+}
+set Ne4f479b0 [stack 0]
+Dot {
+name Dot18
+label "TARGET COLOR"
+note_font_size 60
+xpos -1467
+ypos -95
+}
+Colorspace {
+colorspace_out HSV
+name Colorspace1
+xpos -1501
+ypos 32
+}
+set N48557470 [stack 0]
+Dot {
+name Dot27
+xpos -1276
+ypos 36
+}
+Dot {
+name Dot21
+xpos -1276
+ypos 543
+}
+set N382d5010 [stack 0]
+Dot {
+name Dot22
+xpos -1276
+ypos 901
+}
+push $N382d5010
+push $N48557470
+push $N388da200
+Dot {
+name Dot19
+label SOURCE
+note_font_size 60
+xpos -1922
+ypos -237
+}
+Colorspace {
+colorspace_out HSV
+name Colorspace3
+xpos -1956
+ypos 21
+}
+Dot {
+name Dot20
+xpos -1922
+ypos 284
+}
+Dissolve {
+inputs 2
+channels {rgba.red -rgba.green -rgba.blue none}
+which {{HueMix}}
+name Dissolve1
+label HUE
+xpos -1501
+ypos 274
+}
+Dissolve {
+inputs 2
+channels {-rgba.red rgba.green -rgba.blue none}
+which {{SaturationMix}}
+name Dissolve3
+label SATURATION
+xpos -1501
+ypos 533
+}
+Dissolve {
+inputs 2
+channels {-rgba.red -rgba.green rgba.blue none}
+which {{ValueMix}}
+name Dissolve2
+label VALUE
+xpos -1501
+ypos 891
+}
+Colorspace {
+colorspace_in HSV
+name Colorspace2
+xpos -1501
+ypos 989
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name Copy2
+xpos -1501
+ypos 1081
+}
+Dot {
+name Dot24
+note_font_size 40
+xpos -1467
+ypos 1232
+}
+push $Ne4f479b0
+Dot {
+name Dot5
+xpos -235
+ypos 621
+}
+set Ne229ee70 [stack 0]
+Dot {
+name Dot7
+xpos 496
+ypos 621
+}
+Blur {
+channels {{{Blur1.channels}}}
+size {{Blur1.size}}
+quality {{Blur1.quality}}
+crop {{Blur1.crop}}
+maskChannelMask {{{Blur1.maskChannelMask}}}
+maskChannelInput {{{Blur1.maskChannelInput}}}
+invert_mask {{Blur1.invert_mask}}
+mix {{Blur1.mix}}
+name Blur1_clone2
+xpos 462
+ypos 772
+icon "\[value Blur1.icon]"
+}
+Dot {
+name Dot9
+xpos 496
+ypos 905
+}
+push $N383ce300
+Dot {
+name Dot8
+xpos 755
+ypos 427
+}
+set Nd3bfa420 [stack 0]
+Blur {
+channels {{{Blur1.channels}}}
+size {{Blur1.size}}
+quality {{Blur1.quality}}
+crop {{Blur1.crop}}
+maskChannelMask {{{Blur1.maskChannelMask}}}
+maskChannelInput {{{Blur1.maskChannelInput}}}
+invert_mask {{Blur1.invert_mask}}
+mix {{Blur1.mix}}
+name Blur1_clone3
+xpos 721
+ypos 776
+icon "\[value Blur1.icon]"
+}
+Merge2 {
+inputs 2
+operation divide
+name Merge3
+xpos 721
+ypos 901
+}
+Dot {
+name Dot10
+xpos 755
+ypos 1036
+}
+push $Nd3bfa420
+Dot {
+name Dot11
+xpos 890
+ypos 427
+}
+Merge2 {
+inputs 2
+operation multiply
+mix {{parent.Merge2.mix}}
+name Merge4
+xpos 856
+ypos 1032
+}
+Dot {
+name Dot12
+xpos 890
+ypos 1232
+}
+push $Ne229ee70
+Blur {
+size {{blur}}
+name Blur1
+xpos -269
+ypos 766
+}
+Dot {
+name Dot2
+xpos -235
+ypos 872
+}
+push $N381ce5c0
+Dot {
+name Dot1
+xpos -44
+ypos 717
+}
+set Nd25f7070 [stack 0]
+Blur {
+channels {{{Blur1.channels}}}
+size {{Blur1.size}}
+quality {{Blur1.quality}}
+crop {{Blur1.crop}}
+maskChannelMask {{{Blur1.maskChannelMask}}}
+maskChannelInput {{{Blur1.maskChannelInput}}}
+invert_mask {{Blur1.invert_mask}}
+mix {{Blur1.mix}}
+name Blur1_clone1
+xpos -78
+ypos 767
+icon "\[value Blur1.icon]"
+}
+Merge2 {
+inputs 2
+operation minus
+name Merge1
+xpos -78
+ypos 868
+}
+Dot {
+name Dot4
+xpos -44
+ypos 1036
+}
+push $Nd25f7070
+Dot {
+name Dot3
+xpos 91
+ypos 717
+}
+Merge2 {
+inputs 2
+operation plus
+mix {{ColorMix}}
+name Merge2
+xpos 57
+ypos 1032
+}
+Switch {
+inputs 3
+which {{Type}}
+name Switch1
+xpos 57
+ypos 1228
+}
+Dot {
+name Dot17
+xpos 91
+ypos 1357
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name Copy1
+xpos 57
+ypos 2293
+}
+CopyBBox {
+inputs 2
+name CopyBBox1
+xpos 57
+ypos 2432
+}
+Output {
+name Output1
+xpos 57
+ypos 2558
+}
+NoOp {
+inputs 0
+name callbacks_
+knobChanged "ntn = nuke.thisNode()\ntype = ntn.knob('Type').value()\n\nif nuke.thisKnob().name() == 'Type':\n    \n        if type == 'Minus-Plus' or type == 'Divide-Multiply':\n\n            nuke.thisParent().knob('HueMix').setVisible(False)\n            nuke.thisParent().knob('SaturationMix').setVisible(False)\n            nuke.thisParent().knob('ValueMix').setVisible(False)\n            nuke.thisParent().knob('ColorMix').setVisible(True)\n            nuke.thisParent().knob('blur').setVisible(True)\n            \n                        \n        else:\n            \n            nuke.thisParent().knob('HueMix').setVisible(True)\n            nuke.thisParent().knob('SaturationMix').setVisible(True)\n            nuke.thisParent().knob('ValueMix').setVisible(True)\n            nuke.thisParent().knob('ColorMix').setVisible(False)\n            nuke.thisParent().knob('blur').setVisible(False)\n            \n            \n            "
+xpos 765
+ypos -97
+hide_input true
+addUserKnob {20 User}
+addUserKnob {4 Type M {Minus-Plus Divide-Multiply HSV ""}}
+}
+end_group

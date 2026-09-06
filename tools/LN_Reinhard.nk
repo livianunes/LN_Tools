@@ -1,0 +1,59 @@
+Group {
+ name LN_Reinhard
+ tile_color 0x5b3fa8ff
+ label "\[value choice]"
+ note_font "Bitstream Vera Sans Bold"
+ selected true
+ xpos -184
+ ypos -104
+ addUserKnob {20 User}
+ addUserKnob {4 choice l Mode M {"Reinhard Normalization" "Revert Normalization"}}
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "Created by" T "Livia Nunes"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 1
+  ypos -144
+ }
+ Dot {
+  name Dot1
+  note_font_size 40
+  xpos 35
+  ypos -38
+ }
+set N15e692e0 [stack 0]
+ Expression {
+  expr0 -r/(r-1)
+  expr1 -g/(g-1)
+  expr2 -b/(b-1)
+  name Expression1
+  label revert
+  xpos -213
+  ypos 162
+ }
+push $N15e692e0
+ Expression {
+  expr0 r/(r+1)
+  expr1 g/(g+1)
+  expr2 b/(b+1)
+  name Expression2
+  label normalize
+  xpos 1
+  ypos 72
+ }
+ Switch {
+  inputs 2
+  which {{choice}}
+  name Switch1
+  selected true
+  xpos 1
+  ypos 168
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+end_group

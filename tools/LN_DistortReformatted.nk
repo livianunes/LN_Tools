@@ -1,0 +1,195 @@
+Group {
+ name LN_DistortReformatted
+ tile_color 0x5280ff
+ selected true
+ xpos -289
+ ypos 869
+ addUserKnob {20 User l Lens}
+ addUserKnob {26 div_config l "<b><font color=#75adbd>Settings</font><b>"}
+ addUserKnob {26 s l " " T " "}
+ addUserKnob {41 pbb l "preserve bounding box" T Reformat5.pbb}
+ addUserKnob {41 black_outside l "black outside" -STARTLINE T Reformat5.black_outside}
+ addUserKnob {26 space l "" +STARTLINE T " "}
+ addUserKnob {26 div_reformat l "<b><font color=#75adbd>Reformated Image</font><b>"}
+ addUserKnob {26 explain l "" +STARTLINE T "Choose what type of reformat was done the the original media:\n"}
+ addUserKnob {41 resize l "resize type" t "This will only work with width or height types. " T Reformat3.resize}
+ addUserKnob {26 space22 l " " T ""}
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2021 - v1.0</font></b>"}
+ addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x453647ff
+  label "descobrir proporcao"
+  note_font_size 60
+  xpos -1012
+  ypos -839
+  bdwidth 380
+  bdheight 335
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x414744ff
+  label "vai pra um\nformato proporcional"
+  note_font_size 40
+  xpos -11
+  ypos -503
+  bdwidth 380
+  bdheight 248
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode5
+  tile_color 0x2b544cff
+  label "volta formato imagem"
+  note_font_size 40
+  xpos -25
+  ypos 114
+  bdwidth 416
+  bdheight 245
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode6
+  tile_color 0x414744ff
+  label "vai pra um\nformato proporcional"
+  note_font_size 40
+  xpos -523
+  ypos -500
+  bdwidth 380
+  bdheight 248
+ }
+ Input {
+  inputs 0
+  name ST_Map
+  xpos -378
+  ypos -683
+  number 1
+ }
+set N985ba400 [stack 0]
+ NoOp {
+  name GetFormat_STMap
+  note_font "Verdana Bold"
+  xpos -378
+  ypos -576
+  addUserKnob {20 User}
+  addUserKnob {3 width l w}
+  width {{input.width}}
+  addUserKnob {3 height l h -STARTLINE}
+  height {{input.height}}
+ }
+ Reformat {
+  type "to box"
+  box_width {{parent.GetFormat_Proportional.knob.width}}
+  box_height {{parent.GetFormat_Proportional.knob.height}}
+  box_fixed true
+  resize {{Reformat3.resize x1782016 2}}
+  pbb true
+  name Reformat2
+  xpos -378
+  ypos -341
+  disable {{"GetFormat_STMap.width == GetFormat_Image.width && GetFormat_Image.height == GetFormat_STMap.height"}}
+ }
+ Dot {
+  name Dot1
+  xpos -344
+  ypos -29
+ }
+ Input {
+  inputs 0
+  name image
+  xpos 125
+  ypos -679
+ }
+ NoOp {
+  name GetFormat_Image
+  note_font "Verdana Bold"
+  xpos 125
+  ypos -586
+  addUserKnob {20 User}
+  addUserKnob {3 width l w}
+  width {{input.width}}
+  addUserKnob {3 height l h -STARTLINE}
+  height {{input.height}}
+ }
+ Reformat {
+  type "to box"
+  box_width {{parent.GetFormat_Proportional.knob.width}}
+  box_height {{parent.GetFormat_Proportional.knob.height}}
+  box_fixed true
+  resize {{Reformat3.resize x1782016 2}}
+  pbb true
+  name Reformat1
+  xpos 125
+  ypos -344
+  disable {{"GetFormat_STMap.width == GetFormat_Image.width && GetFormat_Image.height == GetFormat_STMap.height"}}
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  name STMap2
+  xpos 125
+  ypos -38
+ }
+set N9dbe6000 [stack 0]
+ Reformat {
+  type "to box"
+  format "1920 1080 0 0 1920 1080 1 HD_1080"
+  box_width {{parent.GetFormat_Image.knob.width}}
+  box_height {{parent.GetFormat_Image.knob.height}}
+  box_fixed true
+  resize {{Reformat3.resize x1782016 2}}
+  pbb true
+  name Reformat5
+  xpos 125
+  ypos 264
+  disable {{"GetFormat_STMap.width == GetFormat_Image.width && GetFormat_Image.height == GetFormat_STMap.height"}}
+ }
+ Output {
+  name Output1
+  xpos 125
+  ypos 798
+ }
+push $N985ba400
+ Reformat {
+  type "to box"
+  box_width {{parent.GetFormat_Image.knob.width}}
+  box_height {{parent.GetFormat_Image.knob.height}}
+  name Reformat3
+  label "DESCOBRIR PROPORCAO"
+  xpos -862
+  ypos -689
+ }
+ NoOp {
+  name GetFormat_Proportional
+  note_font "Verdana Bold"
+  xpos -862
+  ypos -602
+  addUserKnob {20 User}
+  addUserKnob {3 width l w}
+  width {{input.width}}
+  addUserKnob {3 height l h -STARTLINE}
+  height {{input.height}}
+ }
+push $N9dbe6000
+ Crop {
+  box {{input.bbox.x} {input.bbox.y} {input.bbox.r} {input.bbox.t}}
+  reformat true
+  crop false
+  name BBoxFormat
+  selected true
+  xpos 411
+  ypos -32
+  addUserKnob {20 Maths}
+  addUserKnob {14 originalFormat l "original format" R 0 100}
+  originalFormat {{input.format.w} {input.format.h}}
+  addUserKnob {15 differenceValues}
+  differenceValues {{input.bbox.x-input.format.x} {input.bbox.y-input.format.y} {input.bbox.r-input.format.r} {input.bbox.t-input.format.t}}
+  addUserKnob {15 restoreFormat}
+  addUserKnob {7 ar R 1 3}
+  ar {{input.format.pixel_aspect}}
+ }
+end_group

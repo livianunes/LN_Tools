@@ -1,0 +1,192 @@
+Group {
+name LN_Despill
+tile_color 0x3d07ff
+note_font "Verdana Bold"
+selected true
+xpos -6171
+ypos 3706
+addUserKnob {20 User l Despill}
+addUserKnob {41 screenColour l "Screen Colour" T Keylight6.screenColour}
+addUserKnob {41 screenBalance l "Screen Color Balance" T Keylight6.screenBalance}
+addUserKnob {41 alphaBias l "Despill Color Bias" T Keylight6.alphaBias}
+addUserKnob {26 ""}
+addUserKnob {41 mode l "luminance math" T Saturation3.mode}
+addUserKnob {41 size l "Edge Color Expand" T Blur9.size}
+addUserKnob {41 screenGain l "Screen Gain" T Keylight6.screenGain}
+}
+Input {
+inputs 0
+name DenoisedPlate
+xpos -49
+ypos 18
+}
+Dot {
+name Dot44
+xpos -15
+ypos 519
+}
+set N37fa8000 [stack 0]
+Dot {
+name Dot1
+xpos -265
+ypos 519
+}
+Dot {
+name Dot2
+xpos -265
+ypos 1263
+}
+push $N37fa8000
+Dot {
+name Dot45
+xpos 256
+ypos 519
+}
+push $N37fa8000
+OFXuk.co.thefoundry.keylight.keylight_v201 {
+show "Final Result"
+unPreMultiply false
+screenColour {0 0 0}
+screenGain 1
+screenBalance 0.5
+alphaBias {0.5 0.5 0.5}
+despillBias {0.5 0.5 0.5}
+gangBiases true
+preBlur 0
+"Screen Matte" 0
+screenClipMin 0
+screenClipMax 1
+screenClipRollback 0
+screenGrowShrink 0
+screenSoftness 0
+screenDespotBlack 0
+screenDespotWhite 0
+screenReplaceMethod "Soft Colour"
+screenReplaceColour {0.5 0.5 0.5}
+Tuning 0
+midPoint 0.5
+lowGain 1
+midGain 1
+highGain 1
+"Inside Mask" 0
+sourceAlphaHandling Ignore
+insideReplaceMethod "Soft Colour"
+insideReplaceColour {0.5 0.5 0.5}
+Crops 0
+SourceXMethod Colour
+SourceYMethod Colour
+SourceEdgeColour 0
+SourceCropL 0
+SourceCropR 1
+SourceCropB 0
+SourceCropT 1
+balanceSet false
+insideComponent None
+outsideComponent None
+cacheBreaker true
+name Keylight6
+xpos -49
+ypos 756
+}
+set N39650c00 [stack 0]
+Merge2 {
+inputs 2
+operation minus
+name Merge12
+xpos 222
+ypos 756
+}
+Saturation {
+saturation 0
+name Saturation3
+xpos 222
+ypos 973
+}
+push $N39650c00
+Dot {
+name Dot46
+xpos -15
+ypos 887
+}
+set Na796c400 [stack 0]
+Premult {
+name Premult3
+xpos 635
+ypos 883
+}
+Blur {
+name Blur9
+xpos 635
+ypos 940
+}
+Unpremult {
+name Unpremult2
+xpos 635
+ypos 1011
+}
+Blur {
+size {{Blur9.size/3}}
+name Blur10
+xpos 635
+ypos 1096
+}
+Constant {
+inputs 0
+channels rgb
+color {{Keylight6.screenColour}}
+name Constant2
+label "\[value width] x \[value height]"
+xpos 452
+ypos 760
+}
+Saturation {
+channels {{{Saturation3.channels}}}
+saturation {{Saturation3.saturation}}
+mode {{Saturation3.mode}}
+maskChannelMask {{{Saturation3.maskChannelMask}}}
+maskChannelInput {{{Saturation3.maskChannelInput}}}
+invert_mask {{Saturation3.invert_mask}}
+unpremult {{{Saturation3.unpremult}}}
+invert_unpremult {{Saturation3.invert_unpremult}}
+mix {{Saturation3.mix}}
+name Saturation3_clone1
+xpos 452
+ypos 970
+icon "\[value Saturation3.icon]"
+}
+Merge2 {
+inputs 2
+operation divide
+name Merge13
+xpos 452
+ypos 1104
+}
+Merge2 {
+inputs 2
+operation multiply
+name Merge14
+xpos 222
+ypos 1104
+}
+push $Na796c400
+Merge2 {
+inputs 2
+operation plus
+name Merge15
+xpos -49
+ypos 1104
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name Copy1
+xpos -49
+ypos 1251
+}
+Output {
+name Output1
+xpos -49
+ypos 1411
+}
+end_group

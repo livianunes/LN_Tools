@@ -1,0 +1,112 @@
+Group {
+ name LN_NormalsRelight
+ knobChanged "\n#define variables\nntn = nuke.thisNode()\nk = nuke.thisKnob()\n\n\nmode = ntn.knob('mode')\nrotate = ntn.knob('rotate')\nintensity = ntn.knob('intensity')\nexpRot = ntn.knob('explainRotate')\nexpRe = ntn.knob('explainRelight')\nxpos = nuke.toNode('Grade_Image').xpos()\nypos = nuke.toNode('Grade_Image').ypos()\nInputImage = nuke.toNode('Image')\n\nif k.name() == 'mode':\n    \n    if mode.value() == 'Relight':\n        \n            intensity.setVisible(True)\n            expRe.setVisible(True)\n            expRot.setVisible(False)\n            \n            with ntn:\n                \n                for node in nuke.allNodes('Input'):\n                    if node.name() == 'Image':\n                        pass\n                    else:\n                        InputImage = nuke.createNode('Input', inpanel=False)\n                        InputImage.knob('xpos').setValue(xpos)\n                        InputImage.knob('ypos').setValue(ypos-398)\n                        InputImage.knob('name').setValue('Image')\n                        nuke.toNode('Grade_Image').setInput(0, InputImage)\n                    \n            \n    else:\n            intensity.setVisible(False)\n            expRe.setVisible(False)\n            expRot.setVisible(True)\n            intensity.setVisible(False)\n            expRe.setVisible(False)\n            expRot.setVisible(True)\n            \n            \n            with ntn:          \n                for node in nuke.allNodes('Input'):\n                    if node.name() == 'Image':\n                         nuke.delete(node)"
+ tile_color 0x5280ff
+ note_font "Verdana Bold"
+ selected true
+ addUserKnob {20 User}
+ addUserKnob {4 mode l Mode M {Relight "Rotate Normals" "" "" ""}}
+ addUserKnob {26 explainRotate l " " +HIDDEN T "Node output is the rotated normals.\n"}
+ addUserKnob {26 explainRelight l "" +STARTLINE T "Plug in directly to image and ajust light intensity and rotation."}
+ addUserKnob {26 _1 l " " T " "}
+ addUserKnob {7 intensity l "Light Intensity" R 0 10}
+ intensity 1
+ addUserKnob {41 rotate l Rotate T Axis1.rotate}
+ addUserKnob {26 _2 l " " T ""}
+ addUserKnob {20 gradeNormals l "Grade Normals" n 1}
+ gradeNormals 0
+ addUserKnob {41 blackpoint T Grade_Normals.blackpoint}
+ addUserKnob {41 whitepoint T Grade_Normals.whitepoint}
+ addUserKnob {41 black l lift T Grade_Normals.black}
+ addUserKnob {41 white l gain T Grade_Normals.white}
+ addUserKnob {41 multiply T Grade_Normals.multiply}
+ addUserKnob {41 gamma T Grade_Normals.gamma}
+ addUserKnob {41 add l offset T Grade_Normals.add}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2021 - v1.0</font></b>\n"}
+ addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+ addUserKnob {26 thanks l "" +STARTLINE T "<font color=#757575 size=2>A special thanks to Pedro Andrade for teaching me the\knowledge that made this tool possible</font>"}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode49
+  tile_color 0x453647ff
+  label "Relight / Rotate Normals"
+  note_font_size 60
+  xpos -767
+  ypos -190
+  bdwidth 890
+  bdheight 762
+ }
+ Input {
+  inputs 0
+  name Normals
+  xpos -566
+  ypos 65
+ }
+ ColorMatrix {
+  matrix {
+      {{Axis1.world_matrix.0} {Axis1.world_matrix.1} {Axis1.world_matrix.2}}
+      {{Axis1.world_matrix.4} {Axis1.world_matrix.5} {Axis1.world_matrix.6}}
+      {{Axis1.world_matrix.8} {Axis1.world_matrix.9} {Axis1.world_matrix.10}}
+    }
+  name ColorMatrix1
+  xpos -566
+  ypos 270
+ }
+ Grade {
+  channels rgba
+  black_clamp false
+  name Grade_Normals
+  xpos -566
+  ypos 457
+ }
+set N81a9b800 [stack 0]
+ Dot {
+  name Dot1
+  xpos -532
+  ypos 532
+ }
+push $N81a9b800
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle7
+  xpos -405
+  ypos 457
+ }
+ Input {
+  inputs 0
+  name Image
+  selected true
+  xpos -206
+  ypos 59
+  number 1
+ }
+ Grade {
+  inputs 1+1
+  white {{intensity}}
+  name Grade_Image
+  xpos -206
+  ypos 457
+ }
+ Switch {
+  inputs 2
+  which {{mode}}
+  name Switch1
+  xpos -206
+  ypos 528
+ }
+ Output {
+  name Output1
+  xpos -206
+  ypos 700
+ }
+ Axis2 {
+  inputs 0
+  name Axis1
+  xpos -390
+  ypos 249
+ }
+end_group

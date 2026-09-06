@@ -1,0 +1,991 @@
+BackdropNode {
+ inputs 0
+ name BackdropNode79
+ tile_color 0x414744ff
+ label "LENS EFFECTS"
+ note_font_size 60
+ selected true
+ xpos -1104
+ ypos -1235
+ bdwidth 1045
+ bdheight 425
+}
+StickyNote {
+ inputs 0
+ name StickyNote10
+ label "<-- might need this additional one in some cases"
+ note_font_size 10
+ selected true
+ xpos -452
+ ypos -915
+}
+Dot {
+ inputs 0
+ name Dot122
+ label "CG/MP ALPHA"
+ note_font_size 20
+ selected true
+ xpos -920
+ ypos -1037
+}
+FilterErode {
+ size -3
+ name FilterErode5
+ selected true
+ xpos -954
+ ypos -922
+}
+push $cut_paste_input
+Dot {
+ name Dot129
+ label comp
+ note_font_size 20
+ selected true
+ xpos -695
+ ypos -1085
+}
+set N1c2e6420 [stack 0]
+Dot {
+ name Dot130
+ note_font_size 40
+ selected true
+ xpos -514
+ ypos -1085
+}
+Group {
+ name LN_LensEffects
+ tile_color 0x3cb2ff
+ note_font "Bitstream Vera Sans Bold"
+ selected true
+ xpos -548
+ ypos -997
+ addUserKnob {20 User}
+ addUserKnob {22 set l "Set Defaults for Camera Format Type" T "def run():\n\n\n\n    ntn = nuke.thisNode()\n\n\n\n\n    redxScale = ntn.knob('redxscale')\n    redYscale = ntn.knob('redyscale')\n    greenxScale = ntn.knob('greenxscale')\n    greenYscale = ntn.knob('greenyscale')\n    bluexScale = ntn.knob('bluexscale')\n    blueYscale = ntn.knob('blueyscale')\n    sizeABmask = ntn.knob('size_ab_mask')\n\n\n\n\n\n    nuke.thisGroup().begin()\n                \n    cam = nuke.toNode('camType').knob('camera').getValue()\n    defBlur = nuke.toNode('defVigBlur').knob('size')\n    Blur_ab_mask = nuke.toNode('Blur_ab_mask').knob('size')\n    mixAB = nuke.toNode('KeymixAB').knob('mix')\n\n\n\n    nuke.thisGroup().end()\n\n\n\n\n\n    if cam == 1:\n        redxScale.setValue(0)\n        redYscale.setValue(0)\n        greenxScale.setValue(-0.001)\n        greenYscale.setValue(0)\n        bluexScale.setValue(0)\n        blueYscale.setValue(0)\n        mixAB.setValue(0.25) \n        defBlur.setValue(100)\n        Blur_ab_mask.setValue(300)\n        sizeABmask.setValue(0.36)\n        ntn.knob('defocus_type').setValue(0)\n        ntn.knob('DefocusAmount').setValue(1)\n        ntn.knob('defocusAspect').setValue(0.5)\n        ntn.knob('aspectDefMask').setValue(1)\n        ntn.knob('onFringe').setValue(0)\n        ntn.knob('vigON').setValue(1)\n        ntn.knob('vigIntensity').setValue(0.3)\n        ntn.knob('vigMask').setValue(0.53)\n        ntn.knob('vigAspect').setValue(1.1,0)\n        ntn.knob('vigAspect').setValue(1,1)\n        ntn.knob('vigBlur').setValue(100)\n\n\n                            \n    elif cam ==0 :\n\n\n\n        redxScale.setValue(0.002)\n        redYscale.setValue(0)\n        greenxScale.setValue(0)\n        greenYscale.setValue(0)\n        bluexScale.setValue(0)\n        blueYscale.setValue(0)\n        mixAB.setValue(0.43) \n        defBlur.setValue(100)\n        Blur_ab_mask.setValue(100)\n        ntn.knob('defocus_type').setValue(0)\n        ntn.knob('DefocusAmount').setValue(0)\n        ntn.knob('defocusAspect').setValue(0.5)\n        ntn.knob('aspectDefMask').setValue(1)\n        sizeABmask.setValue(0.32)\n        ntn.knob('onFringe').setValue(0)\n        ntn.knob('vigON').setValue(0)\n\n\n\nrun()\n\n\n\n\n" +STARTLINE}
+ addUserKnob {6 UseGPU l "Use GPU if available" +STARTLINE}
+ UseGPU true
+ addUserKnob {26 spacer2 l "" +STARTLINE T ""}
+ addUserKnob {26 textDefocus l "<b>LENS EDGE DEFOCUS</b>" T " \n"}
+ addUserKnob {41 defocus_type l "Defocus Type" T _callbacks.defocus_type}
+ addUserKnob {7 DefocusAmount l "Defocus Amount" R 0 20}
+ DefocusAmount 1
+ addUserKnob {7 defocusAspect l "Aspect Ratio" R 0 2}
+ defocusAspect 0.5
+ addUserKnob {7 defocusVector l Amount +HIDDEN R 0 50}
+ defocusVector 10
+ addUserKnob {26 textDefocusMask l "<b>Defocus Mask</b>" T ""}
+ addUserKnob {7 defMaskSize l "Defocus Vignette Size" R 0.01 1.5}
+ defMaskSize 0.55
+ addUserKnob {7 aspectDefMask l "Defocus Vignette Shape" R 0 10}
+ aspectDefMask 1
+ addUserKnob {41 defVigBlur_ l Falloff T defVigBlur.size}
+ addUserKnob {26 ""}
+ addUserKnob {26 spacer l " " T ""}
+ addUserKnob {26 textAB l "<b>CHROMATIC ABERRATION</b>" T "\n"}
+ addUserKnob {41 AberrationType l "Aberration Type" T _callbacks.AberrationType}
+ addUserKnob {41 mix l Mix T KeymixAB.mix}
+ addUserKnob {20 redscale l "red scale" n 1}
+ addUserKnob {7 redxscale l "red x scale" R -0.2 0.2}
+ addUserKnob {7 redyscale l "red y scale" R -0.2 0.2}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 greenscale l "green scale" n 1}
+ addUserKnob {7 greenxscale l "green x scale" R -0.2 0.2}
+ greenxscale -0.001
+ addUserKnob {7 greenyscale l "green y scale" R -0.2 0.2}
+ addUserKnob {20 endGroup_1 l endGroup n -1}
+ addUserKnob {20 bluescale l "blue scale" n 1}
+ bluescale 0
+ addUserKnob {7 bluexscale l "blue x scale" R -0.2 0.2}
+ addUserKnob {7 blueyscale l "blue y scale" R -0.2 0.2}
+ addUserKnob {20 endGroup_2 l endGroup n -1}
+ addUserKnob {7 chromaticVectorRed l "Aberration Size" +HIDDEN R 0 50}
+ chromaticVectorRed 1
+ addUserKnob {7 abOffset l Offset +HIDDEN R -1 0}
+ abOffset 0.5
+ addUserKnob {26 aberrationMask l "<b>Aberration Mask</b>" T ""}
+ addUserKnob {41 size l Falloff T Blur_ab_mask.size}
+ addUserKnob {7 size_ab_mask l "Protect Center" R 0 3}
+ size_ab_mask 0.36
+ addUserKnob {26 ""}
+ addUserKnob {26 spacer3 l " " T ""}
+ addUserKnob {26 textVIGNETTE l <b>VIGNETTE</b> T " "}
+ addUserKnob {6 vigON l "Vignette On" +STARTLINE}
+ vigON true
+ addUserKnob {7 vigIntensity l Intensity}
+ vigIntensity 0.3
+ addUserKnob {7 vigMask l "Vignette Size" R 0.01 1.5}
+ vigMask 0.53
+ addUserKnob {14 vigAspect l "Vignette Scale Shape" R 0 100}
+ vigAspect {1.1 1}
+ addUserKnob {7 vigBlur l Falloff R 0 600}
+ vigBlur 100
+ addUserKnob {6 showVignette l "Show Vignette Mask Area" +STARTLINE}
+ showVignette true
+ addUserKnob {26 ""}
+ addUserKnob {26 spacer_ l " " T ""}
+ addUserKnob {26 textFringe l <b>FRINGING</b> T " "}
+ addUserKnob {6 onFringe l "Turn On" +STARTLINE}
+ addUserKnob {7 greenFringe l "Green Fringe Multiplier" R 1 2}
+ greenFringe 1.715
+ addUserKnob {41 white l Detection T Grade_EdgeDet.white}
+ addUserKnob {41 threshold T EdgeDetect2.threshold}
+ addUserKnob {41 erodesize l "erode size" T EdgeDetect2.erodesize}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x453647ff
+  label callbacks
+  note_font_size 60
+  xpos 680
+  ypos -34
+  bdwidth 380
+  bdheight 250
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x2d3947ff
+  label "Green Fringing"
+  note_font_size 60
+  xpos 1657
+  ypos 3279
+  bdwidth 1998
+  bdheight 368
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x3b4735ff
+  label Vignette
+  note_font_size 60
+  xpos 1362
+  ypos 4153
+  bdwidth 675
+  bdheight 618
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode6
+  tile_color 0x414744ff
+  label "Defocus Vignette"
+  note_font_size 60
+  xpos 664
+  ypos 482
+  bdwidth 2167
+  bdheight 799
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode7
+  tile_color 0x3b4735ff
+  label "Chromatic Aberration"
+  note_font_size 60
+  xpos 1251
+  ypos 1419
+  bdwidth 1719
+  bdheight 1589
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode8
+  tile_color 0x453647ff
+  label vectors
+  note_font_size 60
+  xpos 1657
+  ypos 3
+  bdwidth 723
+  bdheight 250
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos 1807
+  ypos -398
+ }
+set N1c4497e0 [stack 0]
+ NoOp {
+  name camType
+  xpos 2296
+  ypos -398
+  addUserKnob {20 User}
+  addUserKnob {3 camera l determineCameraType}
+  camera {{"(input.width/input.height)>1.456384324 ? 1: 0"}}
+  addUserKnob {26 tip l "Tip " T "\n1 is anamorphic\n0 is spherical"}
+ }
+ NoOp {
+  inputs 0
+  name _callbacks
+  knobChanged "ntn = nuke.thisNode()\n\nif nuke.thisKnob().name() == 'defocus_type':\n    \n        if ntn.knob('defocus_type').value() == 'Traditional':\n\n            nuke.thisParent().knob('DefocusAmount').setVisible(True)\n            nuke.thisParent().knob('defocusAspect').setVisible(True)\n            nuke.thisParent().knob('defocusVector').setVisible(False)\n        \n        else:\n\n            nuke.thisParent().knob('DefocusAmount').setVisible(False)\n            nuke.thisParent().knob('defocusAspect').setVisible(False)\n            nuke.thisParent().knob('defocusVector').setVisible(True)\n\n\nif nuke.thisKnob().name() == 'AberrationType':\n    \n        if ntn.knob('AberrationType').value() == 'Traditional':\n\n            nuke.thisParent().knob('chromaticVectorRed').setVisible(False)\n            nuke.thisParent().knob('abOffset').setVisible(False)\n            nuke.thisParent().knob('redscale').setVisible(True)\n            nuke.thisParent().knob('redxscale').setVisible(True)\n            nuke.thisParent().knob('redyscale').setVisible(True)\n            nuke.thisParent().knob('greenscale').setVisible(True)\n            nuke.thisParent().knob('greenxscale').setVisible(True)\n            nuke.thisParent().knob('greenyscale').setVisible(True)\n            nuke.thisParent().knob('bluescale').setVisible(True)\n            nuke.thisParent().knob('bluexscale').setVisible(True)\n            nuke.thisParent().knob('blueyscale').setVisible(True)            \n        \n        else:\n\n            nuke.thisParent().knob('chromaticVectorRed').setVisible(True)\n            nuke.thisParent().knob('abOffset').setVisible(True)\n            nuke.thisParent().knob('redscale').setVisible(False)\n            nuke.thisParent().knob('redxscale').setVisible(False)\n            nuke.thisParent().knob('redyscale').setVisible(False)\n            nuke.thisParent().knob('greenscale').setVisible(False)\n            nuke.thisParent().knob('greenxscale').setVisible(False)\n            nuke.thisParent().knob('greenyscale').setVisible(False)\n            nuke.thisParent().knob('bluescale').setVisible(False)\n            nuke.thisParent().knob('bluexscale').setVisible(False)\n            nuke.thisParent().knob('blueyscale').setVisible(False)      \n            \n                        \n   "
+  xpos 823
+  ypos 81
+  hide_input true
+  addUserKnob {20 User}
+  addUserKnob {4 defocus_type l "Defocus Type" M {Traditional "Vector Based" "" ""}}
+  addUserKnob {4 AberrationType l "Aberration Type" M {Traditional "Vector Based"}}
+ }
+push $N1c4497e0
+ Dot {
+  name Dot7
+  note_font_size 40
+  xpos 1841
+  ypos -89
+ }
+set N1d015070 [stack 0]
+ Dot {
+  name Dot4
+  note_font_size 40
+  xpos 3459
+  ypos -89
+ }
+ Grade {
+  white 0.03
+  name Grade_EdgeDet
+  xpos 3425
+  ypos 3429
+ }
+ EdgeDetectWrapper {
+  erodesize 1.4
+  name EdgeDetect2
+  xpos 3425
+  ypos 3535
+ }
+ Blur {
+  size 2
+  name Blur1
+  xpos 3070
+  ypos 3535
+ }
+push $N1d015070
+ Group {
+  name RadialVectorGenerator2
+  xpos 2150
+  ypos 153
+  disable {{Switch_vectorDefocus.which==1||Switch_vectorAberration.which==1?0:1}}
+  addUserKnob {20 genTab l Generator}
+  addUserKnob {12 center l "Center Point" t "Center of the Radial vectors"}
+  center {{input.width/2} {input.height/2}}
+  addUserKnob {7 ratio l "Aspect Ratio" t "Distort the circle to a different aspect ratio." R 0.5 2}
+  ratio 1
+  addUserKnob {26 ""}
+  addUserKnob {7 protect l "Protect Center" t "Create an area around your center that won't be affected by vectors. (0,0 vectors)\nOther vectors will be spread around that center so that there isn't a sharp transition.\n\nA value of 1 or above would protect the whole image, not producting any vectors."}
+  addUserKnob {7 gamma l Gamma t "Gamma the magnitude of the vectors, to create a sharper or smoother transition between the center and the outskirt areas." R 0.1 2}
+  gamma 1
+  addUserKnob {26 ""}
+  addUserKnob {7 rotate l Rotate t "Rotating the vectors can create either a zoom type of vectors (0, 180 rotation), a spin (90, 270 rotation) or a swirl for any value in between." R 0 360}
+  rotate 360
+  addUserKnob {7 multiply l Multiply t "Multpilies the overall value/length of the vectors." R 0 10}
+  multiply 1
+ }
+  Input {
+   inputs 0
+   name Input1
+   xpos -908
+   ypos 131
+  }
+  Expression {
+   expr0 x/width
+   expr1 y/height
+   expr2 0
+   name Expression1
+   xpos -908
+   ypos 182
+  }
+  BlinkScript {
+   recompileCount 28
+   ProgramGroup 1
+   KernelDescription "3 \"RadialVectors\" iterate pixelWise 022dfefcb578cac450e99b3e9eaa966ae848c25352f9d35bd31e5f1e18b9e87e 2 \"src\" Read Point \"dst\" Write Point 7 \"Aspect Ratio\" Float 1 AACAPw== \"Center\" Float 2 AACAPwAAgD8= \"Protect Center\" Float 1 AAAAAA== \"Rotate Vectors\" Float 1 AAAAAA== \"Gamma\" Float 1 AACAPw== \"Multiply\" Float 1 AACAPw== \"size\" Float 2 AAAAAAAAAAA= 7 \"ratio\" 1 1 Default \"center\" 2 1 Default \"protect\" 1 1 Default \"rotate\" 1 1 Default \"gamma\" 1 1 Default \"multiply\" 1 1 Default \"size\" 2 1 Default 1 \"_imgDiag\" Float 1 1 AAAAAA=="
+   kernelSource "kernel RadialVectors : ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessPoint, eEdgeClamped> src;  //the input image\n  Image<eWrite> dst;  //the output image\n\n  param:\n    float ratio;  //This parameter is made available to the user.\n    float2 center;\n    float protect;\n    float rotate;\n    float gamma;\n    float multiply;\n    float2 size;\n\n  local:\n\n    float _imgDiag; //Image diagonal\n\n  //In define(), parameters can be given labels and default values.\n  void define() \{\n    defineParam(ratio, \"Aspect Ratio\", 1.0f);\n    defineParam(center, \"Center\", float2(1.0f,1.0f));\n    defineParam(protect, \"Protect Center\", 0.0f);\n    defineParam(rotate, \"Rotate Vectors\", 0.0f);\n    defineParam(gamma, \"Gamma\", 1.0f);\n    defineParam(multiply, \"Multiply\", 1.0f);\n  \}\n\n  //The init() function is run before any calls to kernel().\n  void init() \{\n    _imgDiag = length(size);\n  \}\n\n  //The kernel function is run at every pixel to produce the output.\n  void process(int2 pos) \{\n    //float2 posf = float2(pos.x, pos.y);\n    float2 posf = float2(src(0)*size.x, src(1)*size.y);\n    float2 v = posf-center;\n    v = v/(_imgDiag/2.0f);\n    \n    // Edit vector magnitude: Blackpoint+clamp for protecting center\n    if (protect < (1.0f))\{ //If we protect the whole image then we don't need to output any vectors\n      // Edit aspect Ratio\n      v = float2(v.x, v.y * ratio);\n      // Find vector Magnitude so that can be edited \n      float magv = length(v);\n\n      magv = max((magv - protect) / (1-protect),0.0f);\n      magv = pow(magv, 1/gamma);\n      float2 normv;\n      if (magv>0)\{\n        normv = normalize(v);\n      \}\n      else \{\n        normv = float2(1.0f, 0.0f);\n      \}\n      v = normv * magv;\n      // Rotate Normals\n      if (rotate != 0.0f)\{\n        float r = rotate * 3.141592653589793f / 180.0f;\n        v = float2( v.x * cos(r) - v.y * sin(r), v.x * sin(r) + v.y * cos(r));\n      \}\n      // Multiply Output\n      //v = v * (_imgDiag/4) * multiply;\n      v = v * multiply;\n      dst() = float4(v.x, v.y, 0.0f, 0.0f);\n      //dst() = float4(magv, magv, magv, 0.0f);\n    \}\n    else\{\n      dst() = float4(0.0f);\n    \}\n\n   \}\n\};\n\n"
+   useGPUIfAvailable {{parent.parent.UseGPU}}
+   rebuild ""
+   "RadialVectors_Aspect Ratio" {{parent.ratio}}
+   RadialVectors_Center {{parent.center} {parent.center}}
+   "RadialVectors_Protect Center" {{parent.protect}}
+   "RadialVectors_Rotate Vectors" {{parent.rotate}}
+   RadialVectors_Gamma {{parent.gamma}}
+   RadialVectors_Multiply {{parent.multiply}}
+   RadialVectors_size {{width} {height}}
+   rebuild_finalise ""
+   name BlinkScript8
+   xpos -908
+   ypos 271
+  }
+  Output {
+   name Output1
+   xpos -908
+   ypos 340
+  }
+  StickyNote {
+   inputs 0
+   name StickyNote1
+   label "We base the calculation on a modified STMAP instead of actual x/y because blinkscript doesn't handle proxy res very well"
+   xpos -797
+   ypos 180
+  }
+ end_group
+push $N1d015070
+ Shuffle2 {
+  inputs 2
+  fromInput1 {{0} B A}
+  fromInput2 {{1} B A}
+  in2 rgba
+  out2 motion
+  mappings "8 rgba.red 0 0 rgba.red 0 0 rgba.green 0 1 rgba.green 0 1 rgba.blue 0 2 rgba.blue 0 2 rgba.alpha 0 3 rgba.alpha 0 3 black -1 -1 backward.v 1 3 rgba.red 1 0 forward.u 1 0 rgba.green 1 1 forward.v 1 1 rgba.blue 1 2 backward.u 1 2"
+  name Shuffle5
+  xpos 1807
+  ypos 153
+  disable {{Switch_vectorDefocus.which==1||Switch_vectorAberration.which==1?0:1}}
+ }
+ Dot {
+  name Dot12
+  note_font_size 40
+  xpos 1841
+  ypos 636
+ }
+set N1ed953e0 [stack 0]
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 0
+  name Expression4
+  xpos 1602
+  ypos 632
+ }
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  reformat true
+  name Crop2
+  xpos 1602
+  ypos 676
+ }
+set N1ca01dc0 [stack 0]
+ Dot {
+  name Dot14
+  note_font_size 40
+  xpos 1348
+  ypos 680
+ }
+set N1ca0ca00 [stack 0]
+ Dot {
+  name Dot19
+  note_font_size 40
+  xpos 1110
+  ypos 680
+ }
+set N1cdafdc0 [stack 0]
+ Dot {
+  name Dot20
+  note_font_size 40
+  xpos 848
+  ypos 680
+ }
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 x>width*wipeX?1:0
+  name Expression_horizontal3
+  label main
+  xpos 814
+  ypos 1110
+  addUserKnob {20 User}
+  addUserKnob {7 Wipe l wipe R 0 100}
+  Wipe 90
+  addUserKnob {7 wipeX}
+  wipeX {{Wipe/100}}
+ }
+push $N1cdafdc0
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 x>width*wipeX?0:1
+  name Expression_horizontal4
+  xpos 1076
+  ypos 818
+  addUserKnob {20 User}
+  addUserKnob {7 Wipe l wipe R 0 100}
+  Wipe {{parent.Expression_horizontal3.Wipe}}
+  addUserKnob {7 wipeX}
+  wipeX {{Wipe/100}}
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos 1076
+  ypos 1116
+ }
+push $N1ca0ca00
+ Radial {
+  area {0 0 {input.width} {input.height}}
+  softness 0
+  name Radial3
+  xpos 1314
+  ypos 814
+  addUserKnob {20 User}
+  addUserKnob {7 size R 0 300}
+  size 212
+ }
+ Transform {
+  scale 0.61
+  center {{input.width/2} {input.height/2}}
+  shutteroffset centred
+  name scale_transform2
+  xpos 1314
+  ypos 1004
+ }
+push $N1ca01dc0
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 "size- sqrt((x-centerX) * (x-centerX) + (y-centerY) * (y-centerY) )"
+  name vignette_expression
+  xpos 1602
+  ypos 732
+  addUserKnob {20 User}
+  addUserKnob {7 centerX}
+  centerX {{input.width/2}}
+  addUserKnob {7 centerY}
+  centerY {{input.height/2}}
+  addUserKnob {7 size R 0 1000}
+  size {{(1/(parent.defMaskSize))*500}}
+ }
+ Transform {
+  scale {1 {parent.aspectDefMask}}
+  center {1078 452}
+  shutteroffset centred
+  name Transform_shape_vignette
+  xpos 1602
+  ypos 776
+ }
+ Clamp {
+  MinClampTo_enable true
+  MaxClampTo_enable true
+  name Clamp1
+  xpos 1602
+  ypos 802
+ }
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  reformat true
+  crop false
+  name Crop1
+  xpos 1602
+  ypos 840
+ }
+ Blur {
+  size 100
+  name defVigBlur
+  xpos 1602
+  ypos 863
+ }
+ Invert {
+  name Invert1
+  xpos 1602
+  ypos 901
+ }
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  reformat true
+  name Crop3
+  xpos 1602
+  ypos 953
+ }
+ Switch {
+  inputs 2
+  name Switch_radial_vignette
+  xpos 1602
+  ypos 1004
+ }
+ Switch {
+  inputs 2
+  name Switch_circular_straight
+  xpos 1602
+  ypos 1116
+ }
+push $N1ed953e0
+ Dot {
+  name Dot13
+  note_font_size 40
+  xpos 2123
+  ypos 636
+ }
+set N1d1661b0 [stack 0]
+ Dot {
+  name Dot30
+  note_font_size 40
+  xpos 2385
+  ypos 636
+ }
+ VectorBlur2 {
+  useGPUIfAvailable {{parent.UseGPU}}
+  uv motion
+  scale {{parent.defocusVector}}
+  motion_falloff 0.5
+  name VectorBlur_defocus
+  xpos 2351
+  ypos 932
+ }
+ Dot {
+  name Dot31
+  note_font_size 40
+  xpos 2385
+  ypos 1120
+ }
+push $N1d1661b0
+ Defocus {
+  defocus {{parent.DefocusAmount}}
+  ratio {{parent.defocusAspect}}
+  name Defocus_lens
+  xpos 2089
+  ypos 927
+  disable {{defocus>0?0:1}}
+ }
+ Switch {
+  inputs 2
+  which {{_callbacks.defocus_type}}
+  name Switch_vectorDefocus
+  xpos 2089
+  ypos 1116
+ }
+push $N1ed953e0
+ Keymix {
+  inputs 3
+  name Keymix1
+  xpos 1807
+  ypos 1110
+ }
+ Dot {
+  name Dot32
+  note_font_size 40
+  xpos 1841
+  ypos 1560
+ }
+set N1e537bb0 [stack 0]
+ Dot {
+  name Dot34
+  note_font_size 40
+  xpos 2591
+  ypos 1560
+ }
+ VectorBlur2 {
+  channels {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+  useGPUIfAvailable {{parent.UseGPU}}
+  uv motion
+  scale 18.4
+  motion_falloff 0.5
+  name VectorBlur8
+  label green
+  xpos 2557
+  ypos 2170
+  disable true
+ }
+ VectorBlur2 {
+  channels {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  useGPUIfAvailable {{parent.UseGPU}}
+  uv motion
+  scale {{parent.chromaticVectorRed}}
+  motion_falloff 0.5
+  offset {{parent.abOffset}}
+  name VectorBlur9
+  label red
+  xpos 2557
+  ypos 2258
+ }
+push $N1e537bb0
+ Dot {
+  name Dot1
+  xpos 1841
+  ypos 1719
+ }
+set N1ce44d30 [stack 0]
+ Dot {
+  name Dot21
+  xpos 1841
+  ypos 1843
+ }
+set N1ce49b70 [stack 0]
+ Dot {
+  name Dot22
+  xpos 1629
+  ypos 1843
+ }
+ Dot {
+  name Dot23
+  xpos 1629
+  ypos 2119
+ }
+push $N1ce49b70
+ Dot {
+  name Dot26
+  note_font_size 40
+  xpos 2040
+  ypos 1843
+ }
+ Shuffle {
+  red blue
+  green blue
+  alpha blue
+  name Shuffle4
+  xpos 2006
+  ypos 1912
+ }
+ Transform {
+  scale {{"1 + parent.bluexscale"} {"1 + parent.blueyscale"}}
+  center {{width/2} {height/2}}
+  name Transform4
+  xpos 2006
+  ypos 1961
+ }
+ Dot {
+  name Dot24
+  note_font_size 40
+  xpos 2040
+  ypos 2074
+ }
+push $N1ce49b70
+ Shuffle {
+  red green
+  blue green
+  alpha green
+  name Shuffle6
+  xpos 1908
+  ypos 1913
+ }
+ Transform {
+  scale {{"1 + parent.greenxscale"} {1+parent.greenyscale}}
+  center {{width/2} {height/2}}
+  name Transform5
+  xpos 1908
+  ypos 1962
+ }
+ Dot {
+  name Dot25
+  note_font_size 40
+  xpos 1942
+  ypos 2018
+ }
+push $N1ce49b70
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle7
+  xpos 1807
+  ypos 1912
+ }
+ Transform {
+  scale {{"1 + parent.redxscale"} {"1 + parent.redyscale"}}
+  center {{width/2} {height/2}}
+  name Transform6
+  xpos 1807
+  ypos 1960
+ }
+ ShuffleCopy {
+  inputs 2
+  green green
+  name ShuffleCopy4
+  xpos 1807
+  ypos 2014
+ }
+ ShuffleCopy {
+  inputs 2
+  blue blue
+  name ShuffleCopy5
+  xpos 1807
+  ypos 2070
+ }
+ ShuffleCopy {
+  inputs 2
+  name ShuffleCopy6
+  xpos 1807
+  ypos 2115
+ }
+ Switch {
+  inputs 2
+  which {{_callbacks.AberrationType}}
+  name Switch_vectorAberration
+  xpos 1807
+  ypos 2270
+ }
+ Dot {
+  name Dot9
+  note_font_size 40
+  xpos 1841
+  ypos 2440
+ }
+set N1d852430 [stack 0]
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 0
+  name Expression2
+  xpos 2219
+  ypos 2436
+ }
+ Radial {
+  area {0 0 {input.width} {input.height}}
+  softness 0
+  name Radial1
+  xpos 2219
+  ypos 2515
+  addUserKnob {20 User}
+  addUserKnob {7 size R 0 300}
+  size 212
+ }
+ Transform {
+  scale {{parent.size_ab_mask x1053 1}}
+  center {{input.width/2 x1053 0} {input.height/2 x1053 0}}
+  shutteroffset centred
+  name scale_transform_aB
+  xpos 2219
+  ypos 2611
+ }
+ Invert {
+  name Invert2
+  xpos 2219
+  ypos 2664
+ }
+ Blur {
+  size 300
+  name Blur_ab_mask
+  xpos 2219
+  ypos 2718
+ }
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  reformat true
+  name Crop5
+  xpos 2219
+  ypos 2808
+ }
+ Dot {
+  name Dot11
+  note_font_size 40
+  xpos 2253
+  ypos 2884
+ }
+push $N1d852430
+push $N1ce44d30
+ Dot {
+  name Dot2
+  xpos 1449
+  ypos 1719
+ }
+ Dot {
+  name Dot10
+  note_font_size 40
+  xpos 1449
+  ypos 2884
+ }
+ Keymix {
+  inputs 3
+  mix 0.25
+  name KeymixAB
+  xpos 1807
+  ypos 2874
+ }
+ Grade {
+  inputs 1+1
+  white {1 {parent.greenFringe} 1 1}
+  white_panelDropped true
+  name Grade_fringe
+  selected true
+  xpos 1807
+  ypos 3541
+  disable {{!parent.onFringe}}
+ }
+ Dot {
+  name Dot3
+  note_font_size 40
+  xpos 1841
+  ypos 4307
+ }
+set N1e452100 [stack 0]
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 0
+  name Expression1
+  xpos 1510
+  ypos 4303
+ }
+ Crop {
+  box {{-padding} {-padding} {"input.width +padding"} {"padding + input.height"}}
+  crop false
+  name Crop8
+  xpos 1510
+  ypos 4353
+  addUserKnob {20 User}
+  addUserKnob {7 padding t "\t" R 0 500}
+  padding 500
+ }
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 0
+  expr3 "size- sqrt((x-centerX) * (x-centerX) + (y-centerY) * (y-centerY) )"
+  name vignette_expression1
+  xpos 1512
+  ypos 4381
+  addUserKnob {20 User}
+  addUserKnob {7 centerX}
+  centerX {{input.width/2}}
+  addUserKnob {7 centerY}
+  centerY {{input.height/2}}
+  addUserKnob {7 size R 0 1000}
+  size {{(1/(parent.vigMask))*500}}
+ }
+ Transform {
+  scale {{parent.vigAspect} {parent.vigAspect}}
+  center {1078 452}
+  black_outside false
+  shutteroffset centred
+  name Transform_shape_vignette1
+  xpos 1512
+  ypos 4432
+ }
+ Clamp {
+  MinClampTo_enable true
+  MaxClampTo_enable true
+  name Clamp2
+  xpos 1512
+  ypos 4473
+ }
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  reformat true
+  crop false
+  name Crop6
+  xpos 1512
+  ypos 4511
+ }
+ Blur {
+  size {{parent.vigBlur}}
+  name fVigBlur
+  xpos 1512
+  ypos 4534
+ }
+ Invert {
+  name Invert3
+  xpos 1512
+  ypos 4572
+ }
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  reformat true
+  name Crop7
+  xpos 1512
+  ypos 4624
+ }
+set N1cef4810 [stack 0]
+push $N1cef4810
+push $N1e452100
+ Grade {
+  inputs 1+1
+  white {4 1 1 1}
+  white_panelDropped true
+  name Grade_show
+  xpos 1807
+  ypos 4624
+  disable {{parent.vigON==1&&parent.showVignette==1?0:1}}
+ }
+ Grade {
+  inputs 1+1
+  white {{1-parent.vigIntensity}}
+  name Grade_Vignetting
+  xpos 1807
+  ypos 4671
+  disable {{parent.vigON==1&&parent.showVignette==0?0:1}}
+ }
+ Output {
+  name Output
+  xpos 1807
+  ypos 5244
+ }
+end_group
+Group {
+ name FRINGING2
+ tile_color 0x5900ff
+ note_font_color 0x930eff
+ selected true
+ xpos -548
+ ypos -916
+ disable true
+ addUserKnob {20 User}
+ addUserKnob {26 textFringe l <b>FRINGING</b> T " "}
+ addUserKnob {7 greenFringe l "Green Fringe Multiplier" R 1 2}
+ greenFringe 1.195
+ addUserKnob {41 white l Detection T Grade_EdgeDet.white}
+ addUserKnob {41 threshold T EdgeDetect2.threshold}
+ addUserKnob {41 erodesize l "erode size" T EdgeDetect2.erodesize}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode11
+  tile_color 0x2d3947ff
+  label "Green Fringing"
+  note_font_size 60
+  xpos -138
+  ypos -83
+  bdwidth 1998
+  bdheight 368
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 0
+  ypos -451
+ }
+set N1ecaa610 [stack 0]
+ Dot {
+  name Dot1
+  note_font_size 40
+  xpos 1664
+  ypos -447
+ }
+ Grade {
+  white 0.06
+  name Grade_EdgeDet
+  xpos 1630
+  ypos 67
+ }
+ EdgeDetectWrapper {
+  erodesize 1.4
+  name EdgeDetect2
+  xpos 1630
+  ypos 173
+ }
+ Blur {
+  size 2
+  name Blur5
+  xpos 1275
+  ypos 173
+ }
+push $N1ecaa610
+ Grade {
+  inputs 1+1
+  white {1 {parent.greenFringe} 1 1}
+  white_panelDropped true
+  name Grade_fringe
+  xpos 0
+  ypos 179
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+end_group
+push $N1c2e6420
+Keymix {
+ inputs 3
+ name Keymix6
+ selected true
+ xpos -729
+ ypos -922
+}

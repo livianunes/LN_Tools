@@ -1,0 +1,61 @@
+Group {
+ name LN_Rainbow
+ tile_color 0x5280ff
+ selected true
+ xpos -172
+ ypos -11
+ addUserKnob {20 User}
+ addUserKnob {26 explain l "" +STARTLINE T "Creates a rainbow ramp if not connected to anything.\nOtherwise, applies rainbow to connected input."}
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "" +STARTLINE T "<b><font color=#d1b364>Created by Livia Nunes - 2021 - v1.0</font></b>"}
+ addUserKnob {26 site l "" +STARTLINE T "Visit <a href=\"http://www.livialivialivia.com\"><span style=\"color:#C8C8C8;\"><b>www.livialivialivia.com</a></b> for more tools and content"}
+}
+ Input {
+  inputs 0
+  name OptionalImage
+  selected true
+  xpos 0
+  ypos -146
+ }
+ Ramp {
+  inputs 0
+  p0 {0 0}
+  p1 {{width} 0}
+  type plinear
+  name Ramp1
+  xpos -239
+  ypos 53
+ }
+ Switch {
+  inputs 2
+  which {{"\[exists parent.input0]"}}
+  name Switch1
+  xpos 0
+  ypos 53
+ }
+ Colorspace {
+  colorspace_out HSV
+  name Colorspace1
+  xpos 0
+  ypos 140
+ }
+ Shuffle {
+  red blue
+  green white
+  blue white
+  name Shuffle2
+  xpos 0
+  ypos 177
+ }
+ Colorspace {
+  colorspace_in HSV
+  name Colorspace2
+  xpos 0
+  ypos 212
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+end_group
