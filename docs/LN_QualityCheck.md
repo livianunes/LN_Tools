@@ -4,8 +4,6 @@
 
 ![LN_QualityCheck](images/LN_QualityCheck.jpg)
 
-QC is boring, repetitive, and the thing you skip when you're behind — which is exactly
-when you need it. This packages the whole pass into one node.
 
 ### The views
 
