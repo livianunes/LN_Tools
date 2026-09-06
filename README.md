@@ -1,11 +1,9 @@
 # LN_Tools
 
-A set of Nuke toolsets I've built over the years as a compositor and Comp TD — mostly
-things I got tired of rebuilding by hand on every show. Keying, edges, lens artefacts,
-CG utilities and a QC node that does the boring part for you.
+A set of Nuke toolsets I've built over the years as a compositor and Comp TD 
 
 They're plain `.nk` toolsets, so there's nothing to compile and nothing to break between
-Nuke versions. Written for **Nuke 13+ / Python 3**.
+Nuke versions. 
 
 <p align="center">
   <img src="LNToolsMenu.jpg" alt="The LN_Tools menu in Nuke's node toolbar">
