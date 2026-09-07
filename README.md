@@ -21,15 +21,8 @@ Clone (or download) this repo somewhere permanent, then point Nuke at it.
 nuke.pluginAddPath('/path/to/LN_Tools')
 ```
 
-**Option B — set the environment variable:**
-
-```bash
-export NUKE_PATH=/path/to/LN_Tools:$NUKE_PATH     # macOS / Linux
-```
-
-```powershell
-setx NUKE_PATH "C:\path\to\LN_Tools;%NUKE_PATH%"   # Windows
-```
+**Option B — just copy the group into nuke:**
+Copy the text from the tool code and paste into your nodegraph.
 
 Restart Nuke. The tools appear under **LN_Tools** in the Nodes toolbar.
 
