@@ -39,7 +39,6 @@ Copy the text from the tool code and paste into your nodegraph and save in your 
 
 1. Save your toolset into `tools/` as `YourTool.nk`.
 2. Write `docs/YourTool.md` — a `# Title`, a `> one-line summary`, then whatever you want.
-3. Run `python build_index.py` to refresh the table above.
 
 The menu picks the new tool up on the next Nuke restart on its own.
 
