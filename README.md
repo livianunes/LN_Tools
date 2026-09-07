@@ -3,7 +3,8 @@
 A set of Nuke toolsets I've built over the years as a compositor and Comp TD 
 
 They're plain `.nk` toolsets for the most parts, some may have blinkscript and might need a recompile.
-Documentation was mostly written by an LLM (Claude), so if there's something weird or wrong, now you know why. Sorry.
+
+DISCLAIMER: Documentation was mostly written by an LLM (Claude), so if there's something weird or wrong, now you know why. Sorry.
 
 <p align="center">
   <img src="LNToolsMenu.jpg" alt="The LN_Tools menu in Nuke's node toolbar">
