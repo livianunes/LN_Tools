@@ -21,15 +21,14 @@ Clone (or download) this repo somewhere permanent, then point Nuke at it.
 ```python
 nuke.pluginAddPath('/path/to/LN_Tools')
 ```
-
-**Option B — just copy the group into nuke:**
-Copy the text from the tool code and paste into your nodegraph.
-
 Restart Nuke. The tools appear under **LN_Tools** in the Nodes toolbar.
 
 `init.py` adds the subfolders to Nuke's plugin path and `menu.py` walks `tools/` and builds
 the menu automatically — so any `.nk` you drop into `tools/` shows up on the next restart,
 no code change needed.
+
+**Option B — just copy the group into nuke:**
+Copy the text from the tool code and paste into your nodegraph and save in your toolsets.
 
 ---
 
