@@ -3,7 +3,7 @@
 A set of Nuke toolsets I've built over the years as a compositor and Comp TD 
 
 They're plain `.nk` toolsets, so there's nothing to compile and nothing to break between
-Nuke versions. 
+Nuke versions. Documentation was mostly written by an LLM (Claude), so if there's something weird or off, now you know why.
 
 <p align="center">
   <img src="LNToolsMenu.jpg" alt="The LN_Tools menu in Nuke's node toolbar">
